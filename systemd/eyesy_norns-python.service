@@ -1,0 +1,15 @@
+[Unit]
+Description=Python Pygame Video Engine
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/Eyesy/engines/python
+ExecStart=python -u main.py -aout jack
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty7
+
+[Install]
+WantedBy=multi-user.target

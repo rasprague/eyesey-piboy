@@ -12,9 +12,9 @@ import csv
 
 class System:
 
-    GRABS_PATH = "/sdcard/Grabs/"
-    MODES_PATH = "/sdcard/Modes/Python/"
-    SCENES_PATH = "/sdcard/Scenes.csv"
+    GRABS_PATH = "../../presets/Grabs/"
+    MODES_PATH = "../../presets/Modes/Python/"
+    SCENES_PATH = "../../presets/Scenes.csv"
 
     #RES =  (1280,720)
     RES =  (0,0)
@@ -61,25 +61,36 @@ class System:
     
     # audio
     audio_in = [0] * 100
+    audio_left = [0] * 100
+    audio_right = [0] * 100
     audio_peak = 0
     audio_trig = False
     audio_scale = 1.0
     audio_trig_enable = True
    
-    # LINK
+    # LINK and trigger source
+    trigger_sources = [
+        "Audio",
+        "LINK Quarter Note",
+        "LINK Eighth Note",
+        "MIDI Clock Quarter",
+        "MIDI Clock Eighth Note",
+        "MIDI Notes"
+    ]
+    trigger_source = 1  # references the above with "Audio" at index 1
     link_connected = False
 
     # knobs a used by mode 
-    knob1 = .200
-    knob2 = .200
-    knob3 = .200
-    knob4 = .200
-    knob5 = .200
+    knob1 = .500
+    knob2 = .500
+    knob3 = .500
+    knob4 = .500
+    knob5 = .500
    
-    # knob values used internally
-    knob = [.2] * 5
-    knob_hardware = [.2] * 5
-    knob_snapshot = [.2] * 5
+    # knob values used internally (custom init for the mode Football Scope)
+    knob = [0.173, 0.811, 0.496, 0.520, 0]
+    knob_hardware = [0.173, 0.811, 0.496, 0.520, 0]
+    knob_snapshot = [0.173, 0.811, 0.496, 0.520, 0]
     knob_override = [False] * 5
 
     # midi stuff (CC gets updated into knobs
@@ -95,6 +106,7 @@ class System:
     usb_midi_present = False
 
     # system stuff 
+    params_sent_pd = False
     memory_used = 0
     ip = ''
     auto_clear = True
@@ -155,6 +167,32 @@ class System:
         self.knob_snapshot[i] = self.knob_hardware[i]
         self.knob[i] = v
 
+    # recall saved shift params from file
+    def recall_shift_params(self):
+        f = open("/home/pi/Eyesy/system/shift-params.txt", 'r')
+        lines = f.read().splitlines()
+        values = []
+        for line in lines:
+            values.append(int(float(line.split()[1][:-1])))
+        try:
+            self.audio_scale = values[0] / 100
+            self.trigger_source = values[1]
+            self.midi_ch = values[2]
+        except:
+            pass
+        f.close()
+
+    # save shift params to file
+    def save_shift_params(self):
+        f = open("/home/pi/Eyesy/system/shift-params.txt", 'w')
+        lines = "inputGain {0};\ntrigSource {1};\nmidiCh {2};\n".format(
+            100 * self.audio_scale,
+            self.trigger_source,
+            self.midi_ch
+        )
+        f.write(lines)
+        f.close()
+
     # then do this for the modes 
     def update_knobs_and_notes(self) :
         for i in range(0, 5) :
@@ -191,7 +229,6 @@ class System:
 
     def check_pgm_change(self):
         if (self.midi_pgm != self.midi_pgm_last):
-            print "got pgm " + str(self.midi_pgm)
             self.midi_pgm_last = self.midi_pgm
             if (len(self.scenes) > 0) :
                 self.scene_index = self.midi_pgm % len(self.scenes)
