@@ -2,6 +2,9 @@
 
 set -ex
 
+# Add pi user to tty
+sudo usermod -a -G tty pi
+
 # Add nodejs Debian package as source.
 # Note the need to allow releaseinfo changes. See https://askubuntu.com/questions/989906/explicitly-accept-change-for-ppa-label
 curl -sL https://deb.nodesource.com/setup_14.x | sed -e 's/apt-get /apt-get --allow-releaseinfo-change /g' | sudo bash -
