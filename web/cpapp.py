@@ -58,8 +58,12 @@ class Root():
             os.system("sudo systemctl start eyesy-oflua.service")
             return 'started oflua'
         elif engine == 'python' :
+            os.system("sudo systemctl start eyesy-pd.service")
             os.system("sudo systemctl start eyesy-python.service")
             return 'started python'
+        elif engine == 'pd' :
+            os.system("sudo systemctl start eyesy-pd.service")
+            return 'started pd'
         else :
             return 'no video engine specified'
     start_video_engine.exposed = True
@@ -68,6 +72,9 @@ class Root():
         # stop them both
         os.system("sudo systemctl stop eyesy-oflua.service")
         os.system("sudo systemctl stop eyesy-python.service")
+        if engine == 'pd' or engine == 'all':
+            os.system("sudo systemctl stop eyesy-pd.service")
+            return 'stopped pd'
     stop_video_engine.exposed = True
 
     def save_new(self, name, contents):

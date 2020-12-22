@@ -13,7 +13,7 @@ sin = [0] * 100
 def init (etc_object, AOUT_JACK) :
 
     global aout_jack, inp, client, etc, trig_this_time, trig_last_time, sin
-    aout_jack = aout_jack
+    aout_jack = AOUT_JACK
     etc = etc_object
 
     if aout_jack:
@@ -40,7 +40,7 @@ def init (etc_object, AOUT_JACK) :
         #setup alsa for sound in
         inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK)
         inp.setchannels(2) 
-        inp.setrate(44100)       # Original value of 11025 was giving error.. OR 44100
+        inp.setrate(48000)       # set to appropriate amount for soundcard .. OR 44100 / 48000
         inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
         inp.setperiodsize(1024)  # OR 1024
 
