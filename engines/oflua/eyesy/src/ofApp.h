@@ -11,10 +11,13 @@
 #include "ofMain.h"
 #include "ofxLua.h"
 #include "ofxOsc.h"
+#include "ofxMidi.h"
+//#include "ofxGPIO.h"
+#include <queue>
 
 #define PORT 4000
 
-class ofApp : public ofBaseApp, ofxLuaListener {
+class ofApp : public ofBaseApp, ofxLuaListener, ofxMidiListener {
 
 	public:
 
@@ -43,11 +46,18 @@ class ofApp : public ofBaseApp, ofxLuaListener {
 		vector<string> scripts;
 		size_t currentScript;
 
-        // osc control
-        ofxOscReceiver receiver;
+		// osc control
+		ofxOscReceiver receiver;
 
-        // audio stuff
+		// audio stuff
 		void audioIn(ofSoundBuffer & input);
+
+		// MIDI In
+		void newMidiMessage(ofxMidiMessage& eventArgs);
+	
+		ofxMidiIn midiIn;
+		std::queue<ofxMidiMessage> midiMessages;
+		std::size_t maxMessages = 32; //< max number of messages to keep track of
 	
 		vector <lua_Number> left;
 		vector <lua_Number> right;
@@ -58,13 +68,21 @@ class ofApp : public ofBaseApp, ofxLuaListener {
 		
 		float smoothedVol;
 		float scaledVol;
+		float peak;
 		
 		ofSoundStream soundStream;
 
-        int                 snapCounter;
-        string              snapString;
-        ofImage             img;
+		int                 snapCounter;
+		string              snapString;
+		ofImage             img;
 	
-	ofFbo fbo;
-	int persistSetting;
+		ofFbo fbo;
+		int persistSetting;
+		bool osdSetting;
+		bool osdShiftSetting;
+		string modesPath;
+		string grabsPath;
+		
+		//GPIO gpio25;
+		//int state_button2;
 };
