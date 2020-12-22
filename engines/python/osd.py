@@ -445,7 +445,7 @@ def render_shift_overlay(screen) :
     font = pygame.font.Font("font.ttf", 16)
 
     # shift lines 
-    text = font.render(" 1: Input Gain {0} % ".format(100 * etc.audio_scale), True, etc.WHITE, etc.BLACK)
+    text = font.render(" 1: Input Gain {0:.2f} % ".format(100 * etc.audio_scale), True, etc.WHITE, etc.BLACK)
     text_rect = text.get_rect()
     text_rect.x = 40
     text_rect.centery = 100
