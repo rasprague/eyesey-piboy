@@ -10,7 +10,7 @@ sudo usermod -a -G tty pi
 curl -sL https://deb.nodesource.com/setup_14.x | sed -e 's/apt-get /apt-get --allow-releaseinfo-change /g' | sudo bash -
 
 # Debian packages
-sudo apt install -y python-pygame python-liblo python-alsaaudio python-pip nodejs
+sudo apt install -y python-pygame python-liblo python-alsaaudio python-pip libffi-dev nodejs
 
 # Python packages
 sudo pip install psutil cherrypy numpy JACK-Client
