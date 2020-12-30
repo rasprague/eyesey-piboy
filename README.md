@@ -9,6 +9,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 
 ### Installation :
 
+```
  git clone https://github.com/okyeron/Eyesy_for_RasPi Eyesy
  cd Eyesy
  ./deploy.sh
@@ -16,13 +17,14 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
   
 ### Usage:
  - Connect a display to the first hdmi out
- - Boot up your Raspi
+ - Boot up your RasPi
+ - (Via SSH) Run the `~/Eyesy/start_web.sh` script to start the web services. Then you can start/stop the video engine from the web editor - see below.
 
    In order to control Eyesy you
-   will have to use the TouchOSC Android (or iOS) app (see below).
+   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller.
+   
    
 ### Control:
-
 
 **Control via TouchOSC:**
 - Download and install the TouchOSC app for your iOS or Android device (it is not free, I've been looking for free/opensource alternatives, please let me know if you know one; nevertheless, this app is well developped and it's also nice to suppot this kind of effort I believe)
@@ -38,7 +40,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
   | Control | Mode Params | Background Color | Scene selection | Save or delete (long hold) | Auto Clear Toggle | Mode Selection | Take Screenshot | Info Disp | Send Trigger | ShiftKey | Input Gain | Trigger Source |
 
 
-### Web editor
+### Web Editor
 The web editor lets you edit the pygame scripts that generate the visuals on the fly. It should be accessible at http://raspberrypi.local:8080/ (or IP:8080 where IP is the current ip adress of your Pi)
 
 See the Eyesy manual for more details on using the web editor.
