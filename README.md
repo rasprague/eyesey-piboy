@@ -23,6 +23,9 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
    In order to control Eyesy you
    will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller.
    
+   You will also need a sound card. Sound card setup is beyond the scope of this readme and will depend on your specific device.
+   
+   Note - EYESY is looking for your sound card to be the "default" device.
    
 ### Control:
 
