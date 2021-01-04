@@ -30,7 +30,7 @@ cd Eyesy
 ### Control:
 
 **Control via TouchOSC:**
-- Download and install the TouchOSC app for your iOS or Android device (it is not free, I've been looking for free/opensource alternatives, please let me know if you know one; nevertheless, this app is well developped and it's also nice to suppot this kind of effort I believe)
+- Download and install the TouchOSC app for your iOS or Android device (it is not free, I've been looking for free/open-source alternatives, please let me know if you know one; nevertheless, this app is well developed and it's also nice to suppot this kind of effort I believe)
 - Download the fitting TouchOSC template from [here](https://www.dropbox.com/sh/l5bhlr3li820olc/AAD399Ej1-16u7qgEB3BTCQ1a?dl=0) to your device and import it via the app (in Layout).
 - In the OSC setting of the app set Host to the ip adress of your pi (your device and your pi must be on the same network)
 - Set the outgoing port to `4000` and ingoing to `4001`
