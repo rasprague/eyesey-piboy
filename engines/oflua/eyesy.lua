@@ -1,7 +1,7 @@
 -- filepath helpers
 
-basedir = "/home/we/sidekick/patches/Eyesy/presets/Modes/oFLua"
-appdir = "/home/we/sidekick/patches/Eyesy/engines/oflua"
+basedir = "/home/pi/Eyesy/presets/Modes/oFLua"
+appdir = "/home/pi/Eyesy/engines/oflua"
 
 
 -- inputs

@@ -31,3 +31,11 @@ sudo systemctl daemon-reload
 # Put the Eyesy_Norns one folder up for a cleaner Sidekick menu
 #rm -rf ../Eyesy_Norns
 #cp -rf Eyesy_Norns ..
+
+cd ~
+./install_pd.sh
+
+wget https://raw.githubusercontent.com/openframeworks/openFrameworks/patch-release/scripts/linux/debian/install_dependencies.sh
+chmod 755 install_dependencies.sh 
+sudo ./install_dependencies.sh
+sudo rm install_dependencies.sh
