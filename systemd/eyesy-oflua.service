@@ -3,8 +3,8 @@ Description=oFLua Video Engine
 
 [Service] 
 Type=simple 
-User=we
-Group=we
+User=pi
+Group=pi
 WorkingDirectory=/home/pi/Eyesy/engines/oflua
 ExecStart=/home/pi/Eyesy/engines/oflua/run.sh
 
