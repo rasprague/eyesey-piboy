@@ -12,8 +12,8 @@
 void ofApp::setup() {
 
 	//MODES and GRABS paths
-	grabsPath = "/home/we/sidekick/patches/Eyesy/presets/Grabs/";
-	modesPath = "/home/we/sidekick/patches/Eyesy/presets/Modes/oFLua"; 
+	grabsPath = "/home/pi/Eyesy/presets/Grabs/";
+	modesPath = "/home/pi/Eyesy/presets/Modes/oFLua"; 
 
 	// Workaround for "other" sized screens/displays
 	ofSetWindowShape(ofGetWidth(), ofGetHeight());
