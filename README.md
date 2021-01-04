@@ -10,9 +10,9 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 ### Installation :
 
 ```
- git clone https://github.com/okyeron/Eyesy_for_RasPi Eyesy
- cd Eyesy
- ./deploy.sh
+git clone https://github.com/okyeron/EYESY_OS_for_RasPi.git Eyesy
+cd Eyesy
+./deploy.sh
  ```
   
 ### Usage:
