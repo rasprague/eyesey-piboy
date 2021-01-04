@@ -34,7 +34,7 @@ function setup()
     ---------------- get the path to this directory
 --    myDirect = of.Directory()                       -- define the Directory Class
 --    thePath = myDirect:getAbsolutePath()            -- get current path
-    thePath = "/home/we/sidekick/patches/Eyesy/presets/Modes/oFLua/VIDEO/example_1_compressed.mp4"
+    thePath = "/home/pi/Eyesy/presets/Modes/oFLua/VIDEO/example_1_compressed.mp4"
     print("thePath", thePath )
 
     --------------------- video grabber
