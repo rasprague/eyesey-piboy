@@ -9,29 +9,34 @@ const wsServer = new WebSocketServer({
 
 const Journalctl = require('journalctl');
 const journalctl = new Journalctl({unit: 'eyesy-python.service'});
+const journalctloflua = new Journalctl({unit: 'eyesy-oflua.service'});
+
 wsServer.on('request', function(request) {
-    const connection = request.accept(null, request.origin);
+	const connection = request.accept(null, request.origin);
 	connection.on('message', function(message) {
 	console.log('Received Message:', message.utf8Data);
 	connection.sendUTF('connected to websocket server');
-     
-   journalctl.on("event", function(event) {
-	   connection.sendUTF(event.MESSAGE);
-   });
+
+	journalctl.on("event", function(event) {
+		connection.sendUTF(event.MESSAGE);
+	});
+	journalctloflua.on("event", function(event) {
+		connection.sendUTF(event.MESSAGE);
+	});
 
 
-   
-    });
+
+	});
 	connection.on('close', function(reasonCode, description) {
 		console.log('Client has disconnected.');
 	});
 });
 
 wsServer.on('connection', function(ws) {
-    console.log('connection !');
+	console.log('connection !');
 
-    connection.sendUTF('Hi SERVER here');
+	connection.sendUTF('Hi SERVER here');
 
-    //ws.timer=setInterval(function(){pingpong(ws);},1000);
+	//ws.timer=setInterval(function(){pingpong(ws);},1000);
 
 });
