@@ -36,6 +36,9 @@ cd ~
 ./install_pd.sh
 
 wget https://raw.githubusercontent.com/openframeworks/openFrameworks/patch-release/scripts/linux/debian/install_dependencies.sh
+wget https://raw.githubusercontent.com/openframeworks/openFrameworks/patch-release/scripts/linux/debian/install_codecs.sh
 chmod 755 install_dependencies.sh 
-sudo ./install_dependencies.sh
+chmod 755 install_codecs.sh 
+sudo ./install_dependencies.sh && sudo ./install_codecs.sh
 sudo rm install_dependencies.sh
+sudo rm install_codecs.sh
