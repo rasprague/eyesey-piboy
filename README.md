@@ -53,5 +53,5 @@ Simply run: `./uninstall.sh`
 
 ### Rem:
 
-- You can use the stereo input in your Modes, there are accessible via `etc.audio_left` and `etc.audio_right` in the scripts, `etc.audio_in` remains L+R
+- You can use the stereo input in your Modes, in Python there are accessible via `etc.audio_left` and `etc.audio_right` in the scripts, `etc.audio_in` remains L+R
 
