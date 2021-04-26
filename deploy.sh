@@ -32,7 +32,7 @@ sudo systemctl daemon-reload
 #rm -rf ../Eyesy_Norns
 #cp -rf Eyesy_Norns ..
 
-cd ~
+cd /home/pi/Eyesy
 ./install_pd.sh
 
 wget https://raw.githubusercontent.com/openframeworks/openFrameworks/patch-release/scripts/linux/debian/install_dependencies.sh
