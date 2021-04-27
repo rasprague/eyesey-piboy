@@ -45,7 +45,7 @@ def trig_callback(path, args) :
 def audio_scale_callback(path, args):
     global etc
     val = args[0]
-    etc.audio_scale = float(val) / 1023
+    etc.audio_scale = float(val)
 
 def audio_trig_enable_callback(path, args):
     global etc
