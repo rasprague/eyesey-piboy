@@ -1,10 +1,8 @@
 import sys
-global AOUT_JACK
-if (len(sys.argv) > 2):
-    AOUT_JACK = (sys.argv[1] == "-aout") & (sys.argv[2] == "jack")
-else:
-    AOUT_JACK = False
 
+global AOUT_JACK
+
+import argparse
 import pygame
 import time
 import etc_system
@@ -18,6 +16,14 @@ import os
 print "starting..."
 print(sys.argv)
 
+# parse command-line arguments
+parser = argparse.ArgumentParser(description="Eyesy Python video")
+parser.add_argument("-aout", type=str, default="alsa")
+parser.add_argument("-device", type=unicode, default=u"default")
+parser.add_argument("-rate", type=int, default=48000)
+parser.add_argument("-period", type=int, default=1024)
+args = parser.parse_args()
+
 # create etc object
 # this holds all the data (mode and preset names, knob values, midi input, sound input, current states, etc...)
 # it gets passed to the modes which use the audio midi and knob values
@@ -29,11 +35,18 @@ etc.recall_shift_params()
 # just to make sure
 etc.clear_flags()
 
+# store command-line arguments
+AOUT_JACK = args.aout == "jack"
+etc.device = args.device
+etc.rate = args.rate
+etc.period = args.period
+
 # setup osc and callbacks
 osc.init(etc)
 
 # setup alsa sound
 sound.init(etc, AOUT_JACK)
+quit()
 
 # init pygame, this has to happen after sound is setup
 # but before the graphics stuff below
