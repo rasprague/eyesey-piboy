@@ -46,7 +46,6 @@ osc.init(etc)
 
 # setup alsa sound
 sound.init(etc, AOUT_JACK)
-quit()
 
 # init pygame, this has to happen after sound is setup
 # but before the graphics stuff below
