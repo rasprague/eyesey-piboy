@@ -14,7 +14,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [add /quit OSC message, create controller-osc.py to translate gamepad controller presses to OSC messages](https://github.com/rasprague/eyesey-piboy/commit/4f8dc3119ef0065946df1a9d0a6ccee58265c5e5)
 
 # Thanks to
-- [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Regular Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
+- [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
 - [Critter & Guitari](https://www.critterandguitari.com/) for the amazing work with the [Eyesy Video Synthesizer](https://www.critterandguitari.com/eyesy) (suport Critter & Guitari, go buy their products!)
 - The great and wonderful [Pygame](https://www.pygame.org/) on top of which this is all built
 
@@ -141,7 +141,7 @@ Simply run: `./uninstall.sh`
 
 
 --
-# orignal EYESY_OS_RasP README below
+# orignal EYESY_OS_RasPi README below
 # EYESY_OS_RasPi
 
 The operating system for the EYESY video synthesizer device - remixed.
