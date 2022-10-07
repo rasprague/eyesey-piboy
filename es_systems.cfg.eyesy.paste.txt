@@ -1,0 +1,9 @@
+  <system>
+    <name>eyesy</name>
+    <fullname>Eyesy</fullname>
+    <path>/home/pi/RetroPie/roms/eyesy</path>
+    <extension>.sh</extension>
+    <command>%ROM%</command>
+    <platform>ignore</platform>
+    <theme>eyesy</theme>
+  </system>
