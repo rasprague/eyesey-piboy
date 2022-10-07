@@ -107,7 +107,24 @@ This adds "eyesy" to your EmulationStation game console selection menu.
   | Control | Mode Params | Background Color | Scene selection | Save or delete (long hold) | Auto Clear Toggle | Mode Selection | Take Screenshot | Info Disp | Send Trigger | ShiftKey | Input Gain | Trigger Source |
 
 **Control via PiBoy built-in controller**
-- COMING SOON
+- press and hold a face button, then use the dpad Left or Right to change the value slowly, or Up or Down to change the value quickly
+  - Z = **Knob1**
+  - Y = **Knob2**
+  - X = **Knob3**
+  - C = **Knob4**
+  - B = **Knob5**
+- press and hold A, then use the dpad Left or Right to change **Mode**, or Up or Down to change **Scene**
+- press and hold the Start button to access secondary functions:
+  - Z = **OSD**
+  - X = **Persist**
+  - C = **Save Scene**
+  - B = **Sceenshot**
+  - A = **Trgger**
+- press Select to toggle shift mode. While in shift mode, press and hold a face button, then use the dpad Left or Right to change the value slowly, or Up or Down to change the value quickly
+  - Z = **Input Gain**
+  - Y = **Trigger Source**
+  - X = **MIDI Channel**
+- press Select, B, and Down simultaneously to **Quit** Eyesy
 
 ### Web Editor
 The web editor lets you edit the pygame scripts that generate the visuals on the fly. It should be accessible at http://raspberrypi.local:8080/ (or IP:8080 where IP is the current ip adress of your Pi)
