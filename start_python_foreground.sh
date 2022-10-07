@@ -1,7 +1,8 @@
 #!/bin/bash
-#amixer cset numid=11 off
 
 EYESY_PYTHON_PID=0
+CONTROLLER_OSC_PID=0
+ARGS=$@
 
 function startup()
 {
@@ -9,15 +10,22 @@ function startup()
     sudo systemctl start eyesy-web-socket.service
     sudo systemctl start eyesy-pd.service
 
+    cd /home/pi/Eyesy
+    ./controller-osc.py &
+    CONTROLLER_OSC_PID=$!
+    echo "CONTROLLER_OSC_PID=$CONTROLLER_OSC_PID"
+
     cd /home/pi/Eyesy/engines/python
-    python -u main.py $@ &
+    python -u main.py $ARGS &
     EYESY_PYTHON_PID=$!
     echo "EYESY_PYTHON_PID=$EYESY_PYTHON_PID"
+
 }
 
 function cleanup()
 {
     kill $EYESY_PYTHON_PID
+    kill $CONTROLLER_OSC_PID
     sudo systemctl stop eyesy-pd.service
     sudo systemctl stop eyesy-web-socket.service
     sudo systemctl stop eyesy-web.service
