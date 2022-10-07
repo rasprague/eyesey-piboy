@@ -182,6 +182,10 @@ def shift_line_callback(path, args) :
         etc.shift_line[k] += " " + str(item)
     etc.shift_line[k] += " "
 
+def quit_callback(path, args):
+    global etc
+    etc.quit = True
+
 def keys_callback(path, args) :
     global etc
     k, v = args
@@ -255,6 +259,7 @@ def init (etc_object) :
     osc_server.add_method("/midi_ch", 'i', midi_ch_callback)
     osc_server.add_method("/trigger_source", 'i', trigger_source_callback)
     osc_server.add_method("/sline", None, shift_line_callback)
+    osc_server.add_method("/quit", None, quit_callback)
     osc_server.add_method(None, None, fallback)
 
 def recv() :

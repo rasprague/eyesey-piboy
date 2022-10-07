@@ -38,11 +38,11 @@ def init (etc_object, AOUT_JACK) :
         ]
     else:
         #setup alsa for sound in
-        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK)
+        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK,device=etc.device)
         inp.setchannels(2) 
-        inp.setrate(48000)       # set to appropriate amount for soundcard .. OR 44100 / 48000
+        inp.setrate(etc.rate)       # set to appropriate amount for soundcard .. OR 44100 / 48000
         inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
-        inp.setperiodsize(1024)  # OR 1024
+        inp.setperiodsize(etc.period)  # OR 1024
 
     trig_last_time = time.time()
     trig_this_time = time.time()
@@ -73,8 +73,12 @@ def recv() :
                 avg_r += data_r[3 * i + j]
             else:
                 if l > 0:
-                    avg_l +=audioop.getsample(ldata, 2, (i * 3) + j)
-                    avg_r +=audioop.getsample(rdata, 2, (i * 3) + j)
+                    try:
+                        avg_l +=audioop.getsample(ldata, 2, (i * 3) + j)
+                        avg_r +=audioop.getsample(rdata, 2, (i * 3) + j)
+                    except audioop.error as e:
+                        pass
+
     # except :
     #     pass
 

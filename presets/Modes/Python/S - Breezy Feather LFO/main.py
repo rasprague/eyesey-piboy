@@ -36,19 +36,22 @@ def setup(screen, etc) :
     pass
 
 def draw(screen, etc) :
-    etc.color_picker_bg(etc.knob5)    
-    color = etc.color_picker(etc.knob4) #on knob4
-    yposr.max = ((830*etc.xres)/1280)
-    tris.max = ((60*etc.xres)/1280)
-    tris.step = int(etc.knob1*((15*etc.xres)/1280))
-    triangles = tris.update()+2
-    space = (etc.xres/(triangles))
-    offset = int((etc.knob2*2-1)*space*4)
-    yposr.step = int(etc.knob3*((72*etc.yres)/720))
-    y = yposr.update()
-    
-    for i in range (0,triangles) :
+    try:
+        etc.color_picker_bg(etc.knob5)
+        color = etc.color_picker(etc.knob4) #on knob4
+        yposr.max = ((830*etc.xres)/1280)
+        tris.max = ((60*etc.xres)/1280)
+        tris.step = int(etc.knob1*((15*etc.xres)/1280))
+        triangles = tris.update()+2
+        space = (etc.xres/(triangles))
+        offset = int((etc.knob2*2-1)*space*4)
+        yposr.step = int(etc.knob3*((72*etc.yres)/720))
+        y = yposr.update()
         
-        auDio = int(etc.audio_in[i] / 65)
-        ax = i * space
-        pygame.gfxdraw.filled_trigon(screen, ax, y, ax+int((space/2)+offset),auDio+y, ax + space, y, color)
+        for i in range (0,triangles) :
+
+            auDio = int(etc.audio_in[i] / 65)
+            ax = i * space
+            pygame.gfxdraw.filled_trigon(screen, ax, y, ax+int((space/2)+offset),auDio+y, ax + space, y, color)
+    except ZeroDivisionError:
+        pass
