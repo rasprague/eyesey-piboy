@@ -1,5 +1,7 @@
 #!/bin/bash
+DEVICE="default:CARD=CODEC"
+RATE=44100
 
 pushd /home/pi/Eyesy
-./start_python_foreground.sh -device default:CARD=CODEC -rate 44100
+./start_python_foreground.sh -device $DEVICE -rate $RATE
 popd
