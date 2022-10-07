@@ -16,13 +16,13 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Regular Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
 - [Critter & Guitari](https://www.critterandguitari.com/) for the amazing work with the [Eyesy Video Synthesizer](https://www.critterandguitari.com/eyesy) (suport Critter & Guitari, go buy their products!)
+- The great and wonderful [Pygame](https://www.pygame.org/) on top of which this is all built
 
-# Requirements
 # Requirements
 - A working Raspberry Pi / Retropie setup on one of the following handheld hardware:
   - PiBoy DMG, see [the PiBoy DMG Getting Started guide](https://resources.experimentalpi.com/the-complete-piboy-dmg-getting-started-guide/)
 
-### Installation :
+# Installation
 
 The instructions assume that you already have a working Retropie installation with an internet connection.
 
@@ -40,20 +40,55 @@ cd Eyesy
 chmod u+x *.sh *.py
 ```
 
-FINISHME
+# Adding m8c to EmulationStation
 
-### Usage:
- - Connect a display to the first hdmi out
- - Boot up your RasPi
- - (Via SSH) Run the `~/Eyesy/start_web.sh` script to start the web services. Then you can start/stop the video engine from the web editor - see below.
+### Install eyesy 'ROMs'
+#### create rom driectory
+```
+mkdir -p /home/pi/RetroPie/roms/eyesy
+```
+#### find your sound hardware
+- attach your sound hardware (USB or otherwise) to your PiBoy
+- run ```./list-pcms.py```, you'll see something like
+```
+default:CARD=Headphones
+default:CARD=CODEC
+```
+  in this example, my Behringer u-Control USB audio interface is default:CODEC (the "Headphones" entry is the audio on-board the RaspberryPi, which doesn't support audio capture)
+
+#### make a custon startup script
+in this example I'll create a custom startup script for my u-Control audio interface, change names as appropriate
+
+- run
+```
+cp eyesy-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
+```
+
+- now edit your script
+```
+nano /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
+```
+- replace the DEVICE value with what your harware name, in this example "default:CARD=CODEC"
+- replace the RATE value with the bitrate your hardware supports (usuall 44100 or 48000)
+- save and quit
+
+### Add eyesy system entry
+- go to /home/pi/.emulationstation/
+- append the contents of this repo's file es_systems.cfg.eyesy.paste.txt to the bottom of es_systems.cfg (just before the ```</systemList>``` line) in that folder (/home/pi/.emulationstation/es_systems.cfg)
+
+If you don't already have an es_systems.cfg file in /home/pi/.emulationstation/, first copy the es_systems.cfg file that's in /etc/emulationstation/ into /home/pi/.emulationstation/.
+
+- restart EmulationStation
+
+This adds "eyesy" to your EmulationStation game console selection menu.
+
+# Usage:
+ - Boot up your PiBoy
+ - From the EYESY EmulationStation entry, launch your custom startup script
 
    In order to control Eyesy you
-   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller.
-   
-   You will also need a sound card. Sound card setup is beyond the scope of this readme and will depend on your specific device.
-   
-   Note - EYESY is looking for your sound card to be the "default" device.
-   
+   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller, or the PiBoy's built-in controller.
+
 ### Control:
 
 **Control via TouchOSC:**
@@ -65,10 +100,14 @@ FINISHME
  
  
 **Control via midi in messages (should be plug and play):**
+- if MIDI isn't plug-and-play, I highly recommend installing [amidiminder](https://github.com/mzero/amidiminder)
+
   | Midi CC    | 21,22,23,24 | 25               | 26               | 27               | 28                | 29                | 30              | 31        | 32           | 33              | 34                         | 35       |
   |-------|-------------|------------------|----------------------|-------------------|---------------------|-----------|--------------|-----------------|----------------------------|----------|------------|----------------|
   | Control | Mode Params | Background Color | Scene selection | Save or delete (long hold) | Auto Clear Toggle | Mode Selection | Take Screenshot | Info Disp | Send Trigger | ShiftKey | Input Gain | Trigger Source |
 
+**Control via PiBoy built-in controller**
+- COMING SOON
 
 ### Web Editor
 The web editor lets you edit the pygame scripts that generate the visuals on the fly. It should be accessible at http://raspberrypi.local:8080/ (or IP:8080 where IP is the current ip adress of your Pi)
@@ -85,7 +124,7 @@ Simply run: `./uninstall.sh`
 
 
 --
-# orignal m8c README below
+# orignal EYESY_OS_RasP README below
 # EYESY_OS_RasPi
 
 The operating system for the EYESY video synthesizer device - remixed.
