@@ -290,7 +290,9 @@ def main():
             elif event.type== JOYBUTTONUP:
                 #print("BUTTONUP", event.joy, event.button)
                 if joy.get_button(KEY_SECONDARY):
-                    if event.button == KEY_TRIGGER:
+                    if event.button == KEY_SAVE:
+                        sendOscMsg("/key/8", 0)
+                    elif event.button == KEY_TRIGGER:
                         sendOscMsg("/key/10", 0)
             else:
                 #print("EVENT", event)
