@@ -23,7 +23,7 @@ controller = {
         # shift knobs
         KNOB_GAIN = 'BUTTON_Y',
         KNOB_TRIGGER_SOURCE = 'BUTTON_X',
-        KNOB_MIDI_CHANNEL = 'BUTTON_B',
+        KNOB_MIDI_CHANNEL = 'BUTTON_A',
         # keys
         KEY_SHIFT = 'BUTTON_SELECT',
         KEY_SECONDARY = 'BUTTON_START',
