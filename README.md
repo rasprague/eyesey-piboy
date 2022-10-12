@@ -61,7 +61,7 @@ mkdir -p /home/pi/RetroPie/roms/eyesy
 default:CARD=Headphones
 default:CARD=CODEC
 ```
-  in this example, my Behringer u-Control USB audio interface is default:CODEC (the "Headphones" entry is the audio on-board the RaspberryPi, which doesn't support audio capture)
+  in this example, my Behringer u-Control USB audio interface is "default:CARD=CODEC" (the "Headphones" entry is the audio on-board the RaspberryPi, which doesn't support audio capture)
 
 #### make a custon startup script
 in this example I'll create a custom startup script for my u-Control audio interface, change names as appropriate
@@ -70,9 +70,9 @@ in this example I'll create a custom startup script for my u-Control audio inter
 ```
 cp eyesy-piboy-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
-if you're on a PiBoy
+if you're on a PiBoy  
 
-  or
+or
 ```
 cp eyesy-gamehat-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
