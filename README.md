@@ -105,7 +105,7 @@ This adds "eyesy" to your EmulationStation game console selection menu.
 ### Control:
 
 **Control via TouchOSC:**
-- Download and install the TouchOSC app for your iOS or Android device (it is not free; nevertheless, this app is well developed and it's also nice to suppot this kind of effort I believe)
+- Download and install the TouchOSC app for your iOS or Android device (it is not free; nevertheless, this app is well developed and it's also nice to support this kind of effort I believe)
 - Download the fitting TouchOSC template from [here](https://github.com/rasprague/eyesy-piboy/tree/master/touchosc_templates) to your device and import it via the app (in Layout).
 - In the OSC setting of the app set Host to the ip adress of your pi (your device and your pi must be on the same network)
 - Set the outgoing port to `4000` and incoming to `4001`
