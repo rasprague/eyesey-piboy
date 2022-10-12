@@ -36,7 +36,7 @@ The instructions assume that you already have a working Retropie installation wi
 
 ### Download source code, build
 ```
-git clone https://github.com/rasprague/eyesey-piboy.git Eyesy
+git clone https://github.com/rasprague/eyesy-piboy.git Eyesy
 cd Eyesy
 ./deploy.sh
  ```
