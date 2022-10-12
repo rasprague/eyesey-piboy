@@ -44,6 +44,7 @@ cd Eyesy
 ### Make scripts user executable
 ```
 chmod u+x *.sh *.py
+chmod u+x controller/controller-osc.py
 ```
 
 # Adding m8c to EmulationStation
