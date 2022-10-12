@@ -100,7 +100,7 @@ This adds "eyesy" to your EmulationStation game console selection menu.
  - From the EYESY EmulationStation entry, launch your custom startup script
 
    In order to control Eyesy you
-   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller, or the PiBoy's built-in controller.
+   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller, or the PiBoy's / GameHAT's built-in controller.
 
 ### Control:
 
