@@ -86,8 +86,8 @@ def setupOscServer():
         osc_server.add_method(None, None, fallback)
         
         osc_server.start()
-    except liblo.ServerError, err:
-        print str(err)
+    except liblo.ServerError as  err:
+        print("libloServerError:", str(err))
 
 def stopOscServer():
     osc_server.stop()
@@ -200,11 +200,11 @@ def get_button(joy, button):
         if not r and controller['axis']:
             thres = controller['axis-threshold']
             if button == 'BUTTON_LEFT':
-                r =  joy.get_axis(0) < thres
+                r =  joy.get_axis(0) < -thres
             elif button == 'BUTTON_RIGHT':
                 r =  joy.get_axis(0) > thres
             elif button == 'BUTTON_UP':
-                r =  joy.get_axis(1) < thres
+                r =  joy.get_axis(1) < -thres
             elif button == 'BUTTON_DOWN':
                 r =  joy.get_axis(1) > thres
         return r
@@ -260,12 +260,12 @@ def main():
                     thresh = controller['axis-threshold']
                     if get_button(joy, 'KNOB_MODE_SCENE'):
                         if axis == 0: 
-                            if joy.get_axis(axis) < thresh: # left
+                            if joy.get_axis(axis) < -thresh: # left
                                 sendOscMsg("/key/4", 1)
                             elif joy.get_axis(axis) > thresh: # right
                                 sendOscMsg("/key/5", 1)
                         elif event.axis == 1:
-                            if joy.get_axis(axis) < thresh: # up
+                            if joy.get_axis(axis) < -thresh: # up
                                 sendOscMsg("/key/6", 1)
                             elif joy.get_axis(axis) > thresh: # down
                                 sendOscMsg("/key/7", 1)
@@ -290,7 +290,7 @@ def main():
                         sendOscMsg("/key/9", 1)
                     elif event.button == bmap('KEY_TRIGGER'):
                         sendOscMsg("/key/10", 1)
-                elif get_button(joy, 'KNOB_MODE_SCENE'):
+                elif get_button(joy, 'KNOB_MODE_SCENE') and controller['dpad']:
                     if event.button == bmap('BUTTON_LEFT'):
                         sendOscMsg("/key/4", 1)
                     elif event.button == bmap('BUTTON_RIGHT'):

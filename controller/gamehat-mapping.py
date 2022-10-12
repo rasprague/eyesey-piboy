@@ -5,12 +5,12 @@ controller = {
     'buttons': dict(
         BUTTON_A = 0,
         BUTTON_B = 1,
-        BUTTON_X = 3,
-        BUTTON_Y = 4,
-        BUTTON_RT = 6,
-        BUTTON_LT = 7,
-        BUTTON_SELECT = 8,
-        BUTTON_START = 9,
+        BUTTON_X = 2,
+        BUTTON_Y = 3,
+        BUTTON_RT = 4,
+        BUTTON_LT = 5,
+        BUTTON_SELECT = 7,
+        BUTTON_START = 6,
     ),
     'mapping': dict(
         # knobs
