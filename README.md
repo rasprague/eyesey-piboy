@@ -175,7 +175,7 @@ Simply run: `./uninstall.sh`
 
 
 
---
+---
 # orignal EYESY_OS_RasPi README below
 # EYESY_OS_RasPi
 
