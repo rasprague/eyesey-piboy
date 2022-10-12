@@ -81,7 +81,7 @@ if you're on a Game HAT
 ```
 nano /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
-- replace the DEVICE value with what your harware name, in this example "default:CARD=CODEC"
+- replace the DEVICE value with your harware's name, in this example "default:CARD=CODEC"
 - replace the RATE value with the bitrate your hardware supports (usuall 44100 or 48000)
 - save and quit
 
