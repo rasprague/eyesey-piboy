@@ -10,14 +10,14 @@ ARGS=$@
 
 function usage()
 {
-    echo "Start Eyesy Python Video  in the foreground"
+    echo "Start Eyesy Python Video in the foreground"
     echo "  also start controller-to-osc mapping script"
     echo "Usage $0"
     echo "  options:"
     echo "    [ -d | --device ] <D> - use audio device D, defaults to 'default'"
     echo "      (see output from list-pcms.py)"
     echo "    [ -r | --rate ] <R> - use R sample rate, defaults to 44100"
-    echo "    [ -m | --controller-mapping <M>- use controller mapping python file M, defaults is mapping.py"
+    echo "    [ -m | --controller-mapping <M>- use controller mapping python file M, defaults is 'mapping.py'"
     echo "    [ -h | --help ] show this helpful message"
 }
 
@@ -62,7 +62,6 @@ function startup()
     python -u main.py -device $DEVICE -rate $RATE &
     EYESY_PYTHON_PID=$!
     echo "EYESY_PYTHON_PID=$EYESY_PYTHON_PID"
-
 }
 
 function cleanup()
@@ -75,8 +74,9 @@ function cleanup()
     exit
 }
 
-trap cleanup EXIT
-trap cleanup KILL
+# here we go
+trap cleanup EXIT SIGHUP SIGTERM
+
 exec > >(tee /tmp/video.log) 2>&1
 parseargs
 startup
