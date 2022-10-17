@@ -167,7 +167,7 @@ def updateTriggerSource(joy):
         trigger_source = clamp(trigger_source+inc, 1, 6)
         sendOscMsg("/trigger_source", trigger_source)
 
-def updateMidiChannel(button):
+def updateMidiChannel(joy):
     global midi_channel
     inc = 0
     if get_button(joy, 'BUTTON_LEFT'):
