@@ -53,6 +53,7 @@ def audio_scale_callback(path, args):
 
 def midi_ch_callback(path, args):
     global midi_channel
+    print("got /midi_channel message", args[0])
     midi_channel = args[0]
 
 def trigger_source_callback(path, args):
@@ -78,7 +79,7 @@ def sendOscMsg(path, args):
 def setupOscServer():
     global osc_server
     try:
-        osc_server = liblo.ServerThread(4001)
+        osc_server = liblo.ServerThread(4002)
 
         # add methods for TouchOsc template
         osc_server.add_method("/knobs/1", 'f', knob_callback, 1)
@@ -122,6 +123,7 @@ def setupOscServer():
         osc_server.start()
     except liblo.ServerError as  err:
         print("libloServerError:", str(err))
+        raise err
 
 def stopOscServer():
     osc_server.stop()
@@ -201,7 +203,7 @@ def updateTriggerSource(joy):
         trigger_source = clamp(trigger_source+inc, 1, 6)
         sendOscMsg("/trigger_source", trigger_source)
 
-def updateMidiChannel(button):
+def updateMidiChannel(joy):
     global midi_channel
     inc = 0
     if get_button(joy, 'BUTTON_LEFT'):
@@ -276,6 +278,7 @@ def updateInput():
                          
 def main():
     global run, joysticks, controller, shift_state
+
     setupSignalHandler()
     setupOscClient()
     setupOscServer()

@@ -4,6 +4,7 @@ import liblo
 etc = None 
 osc_server = None
 osc_target = None
+osc_target2 = None
 
 cc_last = [0] * 5
 pgm_last = 0
@@ -210,12 +211,13 @@ def skey_callback(path, args) :
     keys_callback(path, [k,v])
 
 def init (etc_object) :
-    global osc_server, osc_target, etc
+    global osc_server, osc_target, osc_target2, etc
     etc = etc_object
     
     # OSC init server and client
     try:
         osc_target = liblo.Address(4001)
+        osc_target2 = liblo.Address(4002)
     except liblo.AddressError as err:
         print(err)
 
@@ -268,8 +270,9 @@ def recv() :
         pass
 
 def send(addr, args) :
-    global osc_target
-    liblo.send(osc_target, addr, args) 
+    global osc_target, osc_target2
+    liblo.send(osc_target, addr, args)
+    liblo.send(osc_target2, addr, args) 
 
 def send_params_pd():
     global etc
