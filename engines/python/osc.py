@@ -15,6 +15,11 @@ clk_last = 0
 def fallback(path, args):
     pass
 
+def echo1(path, args, type, src, data):
+    fn = data
+    globals()[fn](path, args)
+    send(path, args[0])
+
 def fs_callback(path, args):
     global etc
     v = args
@@ -227,11 +232,11 @@ def init (etc_object) :
         print str(err)
     
     # added methods for TouchOsc template as it cannot send two arguments
-    osc_server.add_method("/knobs/1", 'f', knob1_callback)
-    osc_server.add_method("/knobs/2", 'f', knob2_callback)
-    osc_server.add_method("/knobs/3", 'f', knob3_callback)
-    osc_server.add_method("/knobs/4", 'f', knob4_callback)
-    osc_server.add_method("/knobs/5", 'f', knob5_callback)
+    osc_server.add_method("/knobs/1", 'f', echo1, "knob1_callback")
+    osc_server.add_method("/knobs/2", 'f', echo1, "knob2_callback")
+    osc_server.add_method("/knobs/3", 'f', echo1, "knob3_callback")
+    osc_server.add_method("/knobs/4", 'f', echo1, "knob4_callback")
+    osc_server.add_method("/knobs/5", 'f', echo1, "knob5_callback")
     osc_server.add_method("/key/1", 'f', skey_callback)
     osc_server.add_method("/key/3", 'f', skey_callback)
     osc_server.add_method("/key/4", 'f', skey_callback)
@@ -254,12 +259,12 @@ def init (etc_object) :
     osc_server.add_method("/new", 's', new_callback)
     osc_server.add_method("/fs", 'i', fs_callback)
     osc_server.add_method("/shift", 'i', shift_callback)
-    osc_server.add_method("/ascale", 'f', audio_scale_callback)
+    osc_server.add_method("/ascale", 'f', echo1, "audio_scale_callback")
     osc_server.add_method("/trig", 'i', trig_callback)
     osc_server.add_method("/atrigen", 'i', audio_trig_enable_callback)
     osc_server.add_method("/linkpresent", 'i', link_present_callback)
-    osc_server.add_method("/midi_ch", 'i', midi_ch_callback)
-    osc_server.add_method("/trigger_source", 'i', trigger_source_callback)
+    osc_server.add_method("/midi_ch", 'i', echo1, "midi_ch_callback")
+    osc_server.add_method("/trigger_source", 'i', echo1, "trigger_source_callback")
     osc_server.add_method("/sline", None, shift_line_callback)
     osc_server.add_method("/quit", None, quit_callback)
     osc_server.add_method(None, None, fallback)

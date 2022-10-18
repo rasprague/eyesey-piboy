@@ -53,7 +53,6 @@ def audio_scale_callback(path, args):
 
 def midi_ch_callback(path, args):
     global midi_channel
-    print("got /midi_channel message", args[0])
     midi_channel = args[0]
 
 def trigger_source_callback(path, args):
