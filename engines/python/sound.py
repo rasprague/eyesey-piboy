@@ -4,6 +4,10 @@ import math
 import jack
 import numpy
 
+class DummyAlsaPort(object):
+    def read(self):
+        return (0,'')
+
 inp = None
 etc = None
 trig_this_time = 0
@@ -38,11 +42,14 @@ def init (etc_object, AOUT_JACK) :
         ]
     else:
         #setup alsa for sound in
-        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK,device=etc.device)
-        inp.setchannels(2) 
-        inp.setrate(etc.rate)       # set to appropriate amount for soundcard .. OR 44100 / 48000
-        inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
-        inp.setperiodsize(etc.period)  # OR 1024
+        if etc.device == "dummy":
+            inp = DummyAlsaPort()
+        else:
+            inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK,device=etc.device)
+            inp.setchannels(2) 
+            inp.setrate(etc.rate)       # set to appropriate amount for soundcard .. OR 44100 / 48000
+            inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+            inp.setperiodsize(etc.period)  # OR 1024
 
     trig_last_time = time.time()
     trig_this_time = time.time()
