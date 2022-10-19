@@ -47,6 +47,18 @@ def knob_callback(path, args, type, src, data):
     i = data
     knobs[i] = args[0]
 
+def audio_scale_callback(path, args):
+    global gain
+    gain = args[0]
+
+def midi_ch_callback(path, args):
+    global midi_channel
+    midi_channel = args[0]
+
+def trigger_source_callback(path, args):
+    global trigger_source
+    trigger_source = args[0]
+
 def fallback(path, args, types, src):
     print("got unknown message '%s' from '%s'" % (path, src.url))
     for a, t in zip(args, types):
@@ -66,7 +78,7 @@ def sendOscMsg(path, args):
 def setupOscServer():
     global osc_server
     try:
-        osc_server = liblo.ServerThread(4001)
+        osc_server = liblo.ServerThread(4002)
 
         # add methods for TouchOsc template
         osc_server.add_method("/knobs/1", 'f', knob_callback, 1)
@@ -83,11 +95,34 @@ def setupOscServer():
         #osc_server.add_method("/key/8", 'f', skey_callback)
         #osc_server.add_method("/key/9", 'f', skey_callback)
         #osc_server.add_method("/key/10", 'f', skey_callback)
-        osc_server.add_method(None, None, fallback)
         
+        # original osc methods
+        #osc_server.add_method("/knobs", 'iiiiii', knobs_callback)
+        #osc_server.add_method("/key", 'ii', keys_callback)
+        #osc_server.add_method("/mblob", 'b', mblob_callback)
+        #osc_server.add_method("/midicc", 'ii', midicc_callback)
+        #osc_server.add_method("/midinote", 'ii', midinote_callback)
+        #osc_server.add_method("/reload", 'i', reload_callback)
+        # osc_server.add_method("/new", 's', reload_callback)
+        #osc_server.add_method("/set", 's', set_callback)
+        #osc_server.add_method("/new", 's', new_callback)
+        #osc_server.add_method("/fs", 'i', fs_callback)
+        #osc_server.add_method("/shift", 'i', shift_callback)
+        osc_server.add_method("/ascale", 'f', audio_scale_callback)
+        #osc_server.add_method("/trig", 'i', trig_callback)
+        #osc_server.add_method("/atrigen", 'i', audio_trig_enable_callback)
+        #osc_server.add_method("/linkpresent", 'i', link_present_callback)
+        osc_server.add_method("/midi_ch", 'i', midi_ch_callback)
+        osc_server.add_method("/trigger_source", 'i', trigger_source_callback)
+        #osc_server.add_method("/sline", None, shift_line_callback)
+        #osc_server.add_method("/quit", None, quit_callback)
+
+        osc_server.add_method(None, None, fallback)
+
         osc_server.start()
     except liblo.ServerError as  err:
         print("libloServerError:", str(err))
+        raise err
 
 def stopOscServer():
     osc_server.stop()
@@ -242,6 +277,7 @@ def updateInput():
                          
 def main():
     global run, joysticks, controller, shift_state
+
     setupSignalHandler()
     setupOscClient()
     setupOscServer()
