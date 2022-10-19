@@ -43,7 +43,7 @@ def init (etc_object, AOUT_JACK) :
     else:
         #setup alsa for sound in
         if etc.device == "dummy":
-            inp = DummyAlsaDevice()
+            inp = DummyAlsaPort()
         else:
             inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE,alsaaudio.PCM_NONBLOCK,device=etc.device)
             inp.setchannels(2) 
