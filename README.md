@@ -16,6 +16,8 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [add /quit OSC message, create controller-osc.py to translate gamepad controller presses to OSC messages](https://github.com/rasprague/eyesey-piboy/commit/4f8dc3119ef0065946df1a9d0a6ccee58265c5e5)
 - [add controller mapping file support, add mapping files for piboy and gamehat](https://github.com/rasprague/eyesy-piboy/commit/eae1708e8e9cb8db1901d44f0f766a95962f1582)
 - [add joy-test.py to discover controller buttons](https://github.com/rasprague/eyesy-piboy/commit/b2f58d58e75b2bd9e9cab657c21d9009cea360d8)
+- [sync OSC value changes to controller-osc.py](e6749d7559480240c5e7739a6fb403c5192c48ea)
+- [add support for "dummy" alsa sound capture device](98427a621791b2ea767e2b31218a364e04cec4fb)
 
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
