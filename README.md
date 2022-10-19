@@ -7,6 +7,7 @@ The operating system for the EYESY video synthesizer device - remixed. Then re-r
   - Tested on Raspberry Pi 3 B+ with RetroPie v4.8.
 
 Adaptation of the Critter&Guitari Eyesy video synth in order to run it on a regular Raspberry Pi
+
 Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%84%A2-user-manual
 
 ### Notable changes
