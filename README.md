@@ -5,6 +5,7 @@ The operating system for the EYESY video synthesizer device - remixed. Then re-r
   - Tested on Raspberry Pi 4 B with the official [PiBoy DMG Image](https://experimentalpi.com/downloads.html).
 - WaveShare Game HAT
   - Tested on Raspberry Pi 3 B+ with RetroPie v4.8.
+- a plain old Raspberry Pi 3 B+ with RetroPie v4.8.
 
 Adaptation of the Critter&Guitari Eyesy video synth in order to run it on a regular Raspberry Pi
 
@@ -29,6 +30,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - A working Raspberry Pi / Retropie setup on one of the following handheld hardware:
   - PiBoy DMG, see [the PiBoy DMG Getting Started guide](https://resources.experimentalpi.com/the-complete-piboy-dmg-getting-started-guide/)
   - Waveshare Game HAT, see [the Game HAT Wiki](https://www.waveshare.com/wiki/Game_HAT) and [manual](https://www.waveshare.com/w/upload/2/22/Game_HAT_user_manual_en.pdf)
+  - a plain old Raspberry Pi 3 B+
   - other systems may work but will need additional support, e.g. you get it working and share your findings with us, or you can send me some hardware so I might get is working =]
 
 # Installation
@@ -102,6 +104,11 @@ or
 cp eyesy-gamehat-dummy.sh /home/pi/RetroPie/roms/eyesy/eyesy-dummy.sh
 ```
 if you're on a Game HAT
+
+#### custom controller support
+if you're using a differnt gamepad controller you can create a custom mapping file
+- in the controller folder, you'll find some preset mapping python files, copy one of these as a starting point
+- run joy-test.py from a ssh / terminal to discover what buttons / hats / axes your controller sends out
 
 ### Add eyesy system entry
 - go to /home/pi/.emulationstation/
