@@ -4,7 +4,7 @@ import math
 import jack
 import numpy
 
-class DummyAlsaPort():
+class DummyAlsaPort(object):
     def read(self):
         return (0,'')
 
