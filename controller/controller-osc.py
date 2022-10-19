@@ -232,6 +232,16 @@ def get_button(joy, button):
         r = False
         if controller['dpad']:
             r = joy.get_button(bmap(button))
+        if not r and controller['hat']:
+            x, y = joy.get_hat(0)
+            if button == 'BUTTON_LEFT':
+                r =  x <= -1.0
+            elif button == 'BUTTON_RIGHT':
+                r =  x >= 1.0
+            elif button == 'BUTTON_UP':
+                r =  y >= 1.0
+            elif button == 'BUTTON_DOWN':
+                r =  y <= -1.0
         if not r and controller['axis']:
             thres = controller['axis-threshold']
             if button == 'BUTTON_LEFT':
@@ -242,6 +252,7 @@ def get_button(joy, button):
                 r =  joy.get_axis(1) < -thres
             elif button == 'BUTTON_DOWN':
                 r =  joy.get_axis(1) > thres
+
         return r
     else:
         return joy.get_button(bmap(button))
@@ -307,7 +318,19 @@ def main():
                                 sendOscMsg("/key/7", 1)
             elif event.type == JOYHATMOTION:
                 #print("HAT", event.joy, event.hat)
-                pass
+                if controller['hat']:
+                    hat = event.hat
+                    x, y = joy.get_hat(hat)
+                    if get_button(joy, 'KNOB_MODE_SCENE'):
+                        if x <= -1.0: # left
+                            sendOscMsg("/key/4", 1)
+                        elif x >= 1.0: # right
+                            sendOscMsg("/key/5", 1)
+                        elif y >= 1.0: # up
+                            sendOscMsg("/key/6", 1)
+                        elif y <= -1.0: # down
+                            sendOscMsg("/key/7", 1)
+                    pass
             elif event.type == JOYBUTTONDOWN:
                 #print("BUTTONDOWN", event.joy, event.button)
                 if shift_state:

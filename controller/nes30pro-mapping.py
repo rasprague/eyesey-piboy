@@ -1,17 +1,21 @@
 controller = {
     'dpad': False,
+    'hat': True,
     'axis': True,
-    'hat': False,
     'axis-threshold': 0.9,
     'buttons': dict(
         BUTTON_A = 0,
         BUTTON_B = 1,
-        BUTTON_X = 2,
-        BUTTON_Y = 3,
-        BUTTON_R1 = 4,
-        BUTTON_L1 = 5,
-        BUTTON_SELECT = 7,
-        BUTTON_START = 6,
+        BUTTON_X = 3,
+        BUTTON_Y = 4,
+        BUTTON_R1 = 7,
+        BUTTON_L1 = 6,
+        BUTTON_R2 = 9,
+        BUTTON_L2 = 8,
+        BUTTON_R3 = 14,
+        BUTTON_L3 = 13,
+        BUTTON_SELECT = 10,
+        BUTTON_START = 11
     ),
     'mapping': dict(
         # knobs
@@ -33,6 +37,6 @@ controller = {
         KEY_PERSIST = 'BUTTON_X',
         KEY_SAVE = 'BUTTON_B',
         KEY_SCREENSHOT = 'BUTTON_A',
-        KEY_TRIGGER = 'BUTTON_R1'
+        KEY_TRIGGER = 'BUTTON_RT'
     )
 }
