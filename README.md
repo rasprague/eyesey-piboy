@@ -86,6 +86,20 @@ nano /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 - replace the RATE value with the bitrate your hardware supports (usuall 44100 or 48000)
 - save and quit
 
+#### or use Eyesy with a "dummy" sound capture device (useful for just MIDI / OSC control, or during testing / development)
+
+- run
+```
+cp eyesy-piboy-dummy.sh /home/pi/RetroPie/roms/eyesy/eyesy-dummy.sh
+```
+if you're on a PiBoy  
+
+or
+```
+cp eyesy-gamehat-dummy.sh /home/pi/RetroPie/roms/eyesy/eyesy-dummy.sh
+```
+if you're on a Game HAT
+
 ### Add eyesy system entry
 - go to /home/pi/.emulationstation/
 - append the contents of this repo's file es_systems.cfg.eyesy.paste.txt to the bottom of es_systems.cfg (just before the ```</systemList>``` line) in that folder (/home/pi/.emulationstation/es_systems.cfg)
