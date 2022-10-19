@@ -1,5 +1,5 @@
 #!/bin/bash
-DEVICE="default:CARD=CODEC"
+DEVICE="default"
 RATE=44100
 CONTROLLER_MAPPING="gamehat-mapping.py"
 
