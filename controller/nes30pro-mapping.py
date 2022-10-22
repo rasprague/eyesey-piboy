@@ -37,6 +37,6 @@ controller = {
         KEY_PERSIST = 'BUTTON_X',
         KEY_SAVE = 'BUTTON_B',
         KEY_SCREENSHOT = 'BUTTON_A',
-        KEY_TRIGGER = 'BUTTON_RT'
+        KEY_TRIGGER = 'BUTTON_R1'
     )
 }
