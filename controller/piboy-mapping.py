@@ -1,6 +1,7 @@
 controller = {
     'dpad': True,
     'axis': False,
+    'hat': False,
     'buttons': dict(
         BUTTON_A = 0,
         BUTTON_B = 1,
@@ -8,11 +9,11 @@ controller = {
         BUTTON_X = 3,
         BUTTON_Y = 4,
         BUTTON_Z = 5,
-        BUTTON_RT = 6,
-        BUTTON_LT = 7,
+        BUTTON_R1 = 6,
+        BUTTON_L1 = 7,
+        BUTTON_L3 = 10,
         BUTTON_SELECT = 8,
         BUTTON_START = 9,
-        BUTTON_L3 = 10,
         BUTTON_DOWN = 11,
         BUTTON_UP = 12,
         BUTTON_LEFT = 13,
