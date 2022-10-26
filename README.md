@@ -59,9 +59,15 @@ chmod u+x controller/controller-osc.py
 ```
 mkdir -p /home/pi/RetroPie/roms/eyesy
 ```
+#### Install stock startup scripts
+```
+ln -s /home/pi/Eyesy/eyesy-choose.sh /home/pi/RetroPie/roms/eyesy/eyesy-choose.sh
+```
+You can use the eyesy-choose.sh script to choose your settings when starting up Eyesy, but better to create a custom startup script for your hardware configuration
+
 #### find your sound hardware
 - attach your sound hardware (USB or otherwise) to your PiBoy
-- run ```./list-pcms.py```, you'll see something like
+- run ```./list-pcms.py -a | sort```, you'll see something like
 ```
 default:CARD=Headphones
 default:CARD=CODEC
@@ -82,13 +88,20 @@ or
 cp eyesy-gamehat-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
 if you're on a Game HAT
-  
+
+or
+```
+cp eyesy-raspi-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
+```
+if you're on a plaing old Raspberry Pi
+
 - now edit your script
 ```
 nano /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
 - replace the DEVICE value with your harware's name, in this example "default:CARD=CODEC"
 - replace the RATE value with the bitrate your hardware supports (usuall 44100 or 48000)
+- OPTIONAL set DOUBLEBUF=0 if Eyesy crashes (e.g. segmentation faults) on your particular hardware setup
 - save and quit
 
 #### or use Eyesy with a "dummy" sound capture device (useful for just MIDI / OSC control, or during testing / development)
@@ -105,10 +118,18 @@ cp eyesy-gamehat-dummy.sh /home/pi/RetroPie/roms/eyesy/eyesy-dummy.sh
 ```
 if you're on a Game HAT
 
+or
+```
+cp eyesy-raspi-dummy.sh /home/pi/RetroPie/roms/eyesy/eyesy-dummy.sh
+```
+if you're on a plain old Raspberry Pi
+
 #### custom controller support
 if you're using a differnt gamepad controller you can create a custom mapping file
-- in the controller folder, you'll find some preset mapping python files, copy one of these as a starting point
+- in the ```controller``` folder, you'll find some preset mapping python files, copy one of these as a starting point
 - run joy-test.py from a ssh / terminal to discover what buttons / hats / axes your controller sends out
+- make sure to save your controller mapping python file to the ```controller``` folder
+- in your custom startup script, set the CONTROLLER_MAPPING value
 
 ### Add eyesy system entry
 - go to /home/pi/.emulationstation/
