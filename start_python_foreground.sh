@@ -18,7 +18,7 @@ function usage()
     echo "    [ -d | --device ] <D> - use audio device D, defaults to 'default'"
     echo "      (see output from list-pcms.py)"
     echo "    [ -r | --rate ] <R> - use R sample rate, defaults to 44100"
-    echo "    [ -b | --doublebuffer <0|1>- 0 to disable double-buffering, 1 to enable double-buffering"
+    echo "    [ -b | --doublebuffer <0|1> - 0 to disable double-buffering, 1 to enable double-buffering"
     echo "    [ -m | --controller-mapping <M>- use controller mapping python file M, defaults is 'mapping.py'"
     echo "    [ -h | --help ] show this helpful message"
 }
