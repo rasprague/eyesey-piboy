@@ -18,8 +18,10 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [add /quit OSC message, create controller-osc.py to translate gamepad controller presses to OSC messages](https://github.com/rasprague/eyesey-piboy/commit/4f8dc3119ef0065946df1a9d0a6ccee58265c5e5)
 - [add controller mapping file support, add mapping files for piboy and gamehat](https://github.com/rasprague/eyesy-piboy/commit/eae1708e8e9cb8db1901d44f0f766a95962f1582)
 - [add joy-test.py to discover controller buttons](https://github.com/rasprague/eyesy-piboy/commit/b2f58d58e75b2bd9e9cab657c21d9009cea360d8)
-- [sync OSC value changes to controller-osc.py](e6749d7559480240c5e7739a6fb403c5192c48ea)
-- [add support for "dummy" alsa sound capture device](98427a621791b2ea767e2b31218a364e04cec4fb)
+- [sync OSC value changes to controller-osc.py](https://github.com/rasprague/eyesy-piboy/commit/e6749d7559480240c5e7739a6fb403c5192c48ea)
+- [add support for "dummy" alsa sound capture device](https://github.com/rasprague/eyesy-piboy/commit/98427a621791b2ea767e2b31218a364e04cec4fb)
+- [Add option to disable double-buffering](https://github.com/rasprague/eyesy-piboy/commit/ccbcfd584a001f4f9d48cd8aef8e7f5689afb6ae)
+- [add eyesy-choose.sh startup script](https://github.com/rasprague/eyesy-piboy/commit/c56c8a807bbd707720399c4f125a1b950605054a)
 
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
@@ -71,6 +73,7 @@ You can use the eyesy-choose.sh script to choose your settings when starting up 
 ```
 default:CARD=Headphones
 default:CARD=CODEC
+...
 ```
   in this example, my Behringer u-Control USB audio interface is "default:CARD=CODEC" (the "Headphones" entry is the audio on-board the RaspberryPi, which doesn't support audio capture)
 
@@ -93,14 +96,14 @@ or
 ```
 cp eyesy-raspi-example.sh /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
-if you're on a plaing old Raspberry Pi
+if you're on a plain old Raspberry Pi
 
 - now edit your script
 ```
 nano /home/pi/RetroPie/roms/eyesy/eyesy-ucontrol.sh
 ```
 - replace the DEVICE value with your harware's name, in this example "default:CARD=CODEC"
-- replace the RATE value with the bitrate your hardware supports (usuall 44100 or 48000)
+- replace the RATE value with the bitrate your hardware supports (usually 44100 or 48000)
 - OPTIONAL set DOUBLEBUF=0 if Eyesy crashes (e.g. segmentation faults) on your particular hardware setup
 - save and quit
 
@@ -127,7 +130,7 @@ if you're on a plain old Raspberry Pi
 #### custom controller support
 if you're using a differnt gamepad controller you can create a custom mapping file
 - in the ```controller``` folder, you'll find some preset mapping python files, copy one of these as a starting point
-- run joy-test.py from a ssh / terminal to discover what buttons / hats / axes your controller sends out
+- run ```joy-test.py``` from a ssh / terminal to discover what buttons / hats / axes your controller sends out
 - make sure to save your controller mapping python file to the ```controller``` folder
 - in your custom startup script, set the CONTROLLER_MAPPING value
 
