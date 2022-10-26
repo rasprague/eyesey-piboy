@@ -2,6 +2,7 @@
 
 DEVICE="default"
 RATE=44100
+DOUBLEBUF=1
 CONTROLLER_MAPPING="mapping.py"
 
 EYESY_PYTHON_PID=0
@@ -17,13 +18,14 @@ function usage()
     echo "    [ -d | --device ] <D> - use audio device D, defaults to 'default'"
     echo "      (see output from list-pcms.py)"
     echo "    [ -r | --rate ] <R> - use R sample rate, defaults to 44100"
+    echo "    [ -b | --doublebuffer <0|1>- 0 to disable double-buffering, 1 to enable double-buffering"
     echo "    [ -m | --controller-mapping <M>- use controller mapping python file M, defaults is 'mapping.py'"
     echo "    [ -h | --help ] show this helpful message"
 }
 
 function parseargs()
 {
-    OPTIONS=$(getopt -o d:r:m: --long device:,rate:,controller-mapping:,help -- $ARGS)
+    OPTIONS=$(getopt -o d:r:b:m: --long device:,rate:,double-buffer:,controller-mapping:,help -- $ARGS)
     if [ $? -ne 0 ]; then
 	usage
 	exit 1
@@ -37,6 +39,8 @@ function parseargs()
 		DEVICE=$2 ; shift 2 ;;
 	    -r|--rate)
 		RATE=$2 ; shift 2 ;;
+	    -b|--double-buffer)
+		DOUBLEBUF=$2 ; shift 2 ;;
 	    -m|--controller-mapping)
 		CONTROLLER_MAPPING=$2 ; shift 2 ;;
 	    -h|--help)
@@ -59,7 +63,7 @@ function startup()
     echo "CONTROLLER_OSC_PID=$CONTROLLER_OSC_PID"
 
     cd /home/pi/Eyesy/engines/python
-    python -u main.py -device $DEVICE -rate $RATE &
+    python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE &
     EYESY_PYTHON_PID=$!
     echo "EYESY_PYTHON_PID=$EYESY_PYTHON_PID"
 }

@@ -22,6 +22,7 @@ parser.add_argument("-aout", type=str, default="alsa")
 parser.add_argument("-device", type=unicode, default=u"default")
 parser.add_argument("-rate", type=int, default=48000)
 parser.add_argument("-period", type=int, default=1024)
+parser.add_argument("-doublebuffer", type=int, default=1)
 args = parser.parse_args()
 
 # create etc object
@@ -60,10 +61,13 @@ osc.send("/led", 7) # set led to running
 
 # init fb and main surfaces
 print "opening frame buffer..."
-#os.putenv('SDL_VIDEODRIVER', "directfb")
-#hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.SCALED, 32)
-hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
-#hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF, 32)
+if args.doublebuffer:
+    #os.putenv('SDL_VIDEODRIVER', "directfb")
+    #hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.SCALED, 32)
+    hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
+    #hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF, 32)
+else:
+    hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.HWSURFACE, 32)
 screen = pygame.Surface(hwscreen.get_size())
 pygame.mouse.set_visible(False)  # not showing mouse
 etc.xres=hwscreen.get_width()
