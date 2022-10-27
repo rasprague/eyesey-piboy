@@ -3,7 +3,7 @@
 DEVICE="default"
 RATE=44100
 DOUBLEBUF=1
-CONTROLLER_MAPPING="mapping.py"
+CONTROLLER_MAPPING="dummy"
 
 EYESY_PYTHON_PID=0
 CONTROLLER_OSC_PID=0
@@ -57,10 +57,12 @@ function startup()
     sudo systemctl start eyesy-web-socket.service
     sudo systemctl start eyesy-pd.service
 
-    cd /home/pi/Eyesy/controller
-    ./controller-osc.py $CONTROLLER_MAPPING &
-    CONTROLLER_OSC_PID=$!
-    echo "CONTROLLER_OSC_PID=$CONTROLLER_OSC_PID"
+    if [ $CONTROLLER_MAPPING -ne "dummy" ]; then
+        cd /home/pi/Eyesy/controller
+        ./controller-osc.py $CONTROLLER_MAPPING &
+        CONTROLLER_OSC_PID=$!
+        echo "CONTROLLER_OSC_PID=$CONTROLLER_OSC_PID"
+    fi
 
     cd /home/pi/Eyesy/engines/python
     python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE &
