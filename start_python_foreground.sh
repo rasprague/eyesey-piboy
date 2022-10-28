@@ -57,7 +57,7 @@ function startup()
     sudo systemctl start eyesy-web-socket.service
     sudo systemctl start eyesy-pd.service
 
-    if [ $CONTROLLER_MAPPING -ne "dummy" ]; then
+    if [ $CONTROLLER_MAPPING != "dummy" ]; then
         cd /home/pi/Eyesy/controller
         ./controller-osc.py $CONTROLLER_MAPPING &
         CONTROLLER_OSC_PID=$!
