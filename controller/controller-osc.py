@@ -24,6 +24,7 @@ SMALL_INC = 5
 BIG_INC = 10
 GAIN_SMALL_INC = 0.001
 GAIN_BIG_INC = 0.01
+GAIN_MAX = 10.0
 
 knobs = [512] * 6 # one extra so I can use 1-based index
 gain = 1.0
@@ -183,7 +184,7 @@ def updateGain(joy):
         inc = -GAIN_BIG_INC
 
     if inc != 0.0:
-        gain = clamp(gain+inc, 0.0, 3.0)
+        gain = clamp(gain+inc, 0.0, GAIN_MAX)
         sendOscMsg("/ascale", gain)
 
 def updateTriggerSource(joy):
@@ -277,13 +278,13 @@ def updateInput():
         else:
             if get_button(joy, 'KNOB_1'):
                 updateKnob(joy, 1)
-            elif get_button(joy, 'KNOB_2'):
+            if get_button(joy, 'KNOB_2'):
                 updateKnob(joy, 2)
-            elif get_button(joy, 'KNOB_3'):
+            if get_button(joy, 'KNOB_3'):
                 updateKnob(joy, 3)
-            elif get_button(joy, 'KNOB_4'):
+            if get_button(joy, 'KNOB_4'):
                 updateKnob(joy, 4)
-            elif get_button(joy, 'KNOB_5'):
+            if get_button(joy, 'KNOB_5'):
                 updateKnob(joy, 5)
                          
 def main():

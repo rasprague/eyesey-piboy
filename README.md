@@ -22,6 +22,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [add support for "dummy" alsa sound capture device](https://github.com/rasprague/eyesy-piboy/commit/98427a621791b2ea767e2b31218a364e04cec4fb)
 - [Add option to disable double-buffering](https://github.com/rasprague/eyesy-piboy/commit/ccbcfd584a001f4f9d48cd8aef8e7f5689afb6ae)
 - [add eyesy-choose.sh startup script](https://github.com/rasprague/eyesy-piboy/commit/c56c8a807bbd707720399c4f125a1b950605054a)
+- [change midi values for scene / mode change, new assignments reflect arturia knob default Relative 1 mode, also better for  korg cc keys, 0,64=ignored, 61-63=prev, 65-67=next](https://github.com/rasprague/eyesy-piboy/commit/42ff29c75b9e5e5ab5aaabec05b33751e6bcbd81)
 
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
@@ -167,6 +168,8 @@ This adds "eyesy" to your EmulationStation game console selection menu.
   | Midi CC    | 21,22,23,24 | 25               | 26               | 27               | 28                | 29                | 30              | 31        | 32           | 33              | 34                         | 35       |
   |-------|-------------|------------------|----------------------|-------------------|---------------------|-----------|--------------|-----------------|----------------------------|----------|------------|----------------|
   | Control | Mode Params | Background Color | Scene selection | Save or delete (long hold) | Auto Clear Toggle | Mode Selection | Take Screenshot | Info Disp | Send Trigger | ShiftKey | Input Gain | Trigger Source |
+
+For Scene and Mode Select (CC 26 and 29), send a value between 61-63 for previous, send a value between 65-67 for next
 
 **Control via PiBoy built-in controller:**
 - press and hold a face button, then use the dpad Left or Right to change the value slowly, or Up or Down to change the value quickly

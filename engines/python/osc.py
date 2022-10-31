@@ -31,7 +31,7 @@ def midicc_callback(path, args):
     val, num = args
     #print "midi cc: " + str(num) + " " + str(val)
     i = num - 21
-    if val != cc_last[i] :
+    if i >= 0 and i < len(cc_last) and val != cc_last[i] :
         etc.cc_override_knob(i, float(val) / 127)
         cc_last[i] = val
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 DEVICE="default"
 RATE=44100
-DOUBLEBUF=1
+DOUBLEBUF=0
 CONTROLLER_MAPPING="gamehat-mapping.py"
 
 pushd /home/pi/Eyesy

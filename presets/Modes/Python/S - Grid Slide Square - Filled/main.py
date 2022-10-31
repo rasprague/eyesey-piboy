@@ -46,6 +46,7 @@ def setup(screen, etc) :
 
 def draw(screen, etc) :
     global xr, yr, x8, y5, hund, otwen, drei, acht, sqmover
+    etc.color_picker_bg(etc.knob5)
     for i in range(0, 7) :
         
         sqmover.step = etc.knob1*drei
