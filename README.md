@@ -23,6 +23,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [Add option to disable double-buffering](https://github.com/rasprague/eyesy-piboy/commit/ccbcfd584a001f4f9d48cd8aef8e7f5689afb6ae)
 - [add eyesy-choose.sh startup script](https://github.com/rasprague/eyesy-piboy/commit/c56c8a807bbd707720399c4f125a1b950605054a)
 - [change midi values for scene / mode change, new assignments reflect arturia knob default Relative 1 mode, also better for  korg cc keys, 0,64=ignored, 61-63=prev, 65-67=next](https://github.com/rasprague/eyesy-piboy/commit/42ff29c75b9e5e5ab5aaabec05b33751e6bcbd81)
+- [let max gain go to 10](https://github.com/rasprague/eyesy-piboy/commit/5c023c8ba7c78441e99cca0c03420a69c45b540f)
 
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
