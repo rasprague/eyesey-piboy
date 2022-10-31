@@ -168,6 +168,8 @@ This adds "eyesy" to your EmulationStation game console selection menu.
   |-------|-------------|------------------|----------------------|-------------------|---------------------|-----------|--------------|-----------------|----------------------------|----------|------------|----------------|
   | Control | Mode Params | Background Color | Scene selection | Save or delete (long hold) | Auto Clear Toggle | Mode Selection | Take Screenshot | Info Disp | Send Trigger | ShiftKey | Input Gain | Trigger Source |
 
+For Scene and Mode Select (CC 26 and 29), send a value between 61-63 for previous, send a value between 65-67 for next
+
 **Control via PiBoy built-in controller:**
 - press and hold a face button, then use the dpad Left or Right to change the value slowly, or Up or Down to change the value quickly
   - Z = **Knob1**
