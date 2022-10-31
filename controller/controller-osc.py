@@ -277,13 +277,13 @@ def updateInput():
         else:
             if get_button(joy, 'KNOB_1'):
                 updateKnob(joy, 1)
-            elif get_button(joy, 'KNOB_2'):
+            if get_button(joy, 'KNOB_2'):
                 updateKnob(joy, 2)
-            elif get_button(joy, 'KNOB_3'):
+            if get_button(joy, 'KNOB_3'):
                 updateKnob(joy, 3)
-            elif get_button(joy, 'KNOB_4'):
+            if get_button(joy, 'KNOB_4'):
                 updateKnob(joy, 4)
-            elif get_button(joy, 'KNOB_5'):
+            if get_button(joy, 'KNOB_5'):
                 updateKnob(joy, 5)
                          
 def main():
