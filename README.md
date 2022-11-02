@@ -148,11 +148,11 @@ If you don't already have an es_systems.cfg file in /home/pi/.emulationstation/,
 This adds "eyesy" to your EmulationStation game console selection menu.
 
 # Usage:
- - Boot up your PiBoy / Game HAT
+ - Boot up your PiBoy / Game HAT / Raspberry Pi
  - From the EYESY EmulationStation entry, launch your custom startup script
 
    In order to control Eyesy you
-   will have to use the TouchOSC Android (or iOS) app (see below) or a MIDI controller, or the PiBoy's / GameHAT's built-in controller.
+   will have to use the TouchOSC Android (or iOS) app (see below), a MIDI controller, a game controller, or a keyboard.
 
 ### Control:
 
