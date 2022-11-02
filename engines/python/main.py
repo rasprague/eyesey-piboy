@@ -25,6 +25,8 @@ parser.add_argument("-period", type=int, default=1024)
 parser.add_argument("-doublebuffer", type=int, default=1)
 args = parser.parse_args()
 
+import keyboardInput
+
 # create etc object
 # this holds all the data (mode and preset names, knob values, midi input, sound input, current states, etc...)
 # it gets passed to the modes which use the audio midi and knob values
@@ -93,12 +95,14 @@ if not (etc.load_modes()) :
     print "no modes found."
     osd.loading_banner(hwscreen, "No Modes found.  Insert USB drive with Modes folder and restart.")
     while True:
-        # quit on esc
+        # quit on esc or ctrl-c
         for event in pygame.event.get():
             if event.type == QUIT:
                 exitexit()
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
+                    exitexit()
+                elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
                     exitexit()
         time.sleep(1)
 
@@ -170,13 +174,20 @@ while 1:
     # check for midi program change
     etc.check_pgm_change()
 
-    # quit on esc
+    # Keyboard input
+    # quit on esc or ctrl-c
+    pressed = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exitexit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                None # exitexit()   This exit was triggered by but0 press on fates (??) - It is not needed
+                exitexit()
+            elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                exitexit()
+
+        keyboardInput.eventHandler(event, pressed, etc)
+    keyboardInput.update(pressed, etc)
 
     # measure fps
     etc.frame_count += 1

@@ -24,6 +24,7 @@ Eyesy Manual : https://www.critterandguitari.com/manual?m=EYESY_Manual#eyesy%E2%
 - [add eyesy-choose.sh startup script](https://github.com/rasprague/eyesy-piboy/commit/c56c8a807bbd707720399c4f125a1b950605054a)
 - [change midi values for scene / mode change, new assignments reflect arturia knob default Relative 1 mode, also better for  korg cc keys, 0,64=ignored, 61-63=prev, 65-67=next](https://github.com/rasprague/eyesy-piboy/commit/42ff29c75b9e5e5ab5aaabec05b33751e6bcbd81)
 - [let max gain go to 10](https://github.com/rasprague/eyesy-piboy/commit/5c023c8ba7c78441e99cca0c03420a69c45b540f)
+- [keyboard support](https://github.com/rasprague/eyesy-piboy/commit/597810ea52835ecc2044511bc437fb50a8e1de50)
 
 # Thanks to
 - [okyeron](https://github.com/okyeron) for doing the hard work of [porting Eyesy to Raspberry Pi](https://github.com/okyeron/EYESY_OS_for_RasPi)
@@ -212,6 +213,29 @@ For Scene and Mode Select (CC 26 and 29), send a value between 61-63 for previou
   - X = **Trigger Source**
   - A = **MIDI Channel**
 - press Select, B, and Down simultaneously to **Quit** Eyesy
+
+**Control via keyboard:**
+- press and hold a number key, then use the arrow keys Left or Right to change the value slowly, or Up or Down to change the value quickly
+  - 1 = **Knob1**
+  - 2 = **Knob2**
+  - 3 = **Knob3**
+  - 4 = **Knob4**
+  - 5 = **Knob5**
+  - 6 = **Input Gain**
+  - 7 = **Trigger Source**
+  - 8 = **MIDI Channel**
+- press a key for other functions
+  - q = **Previous Scene**
+  - w = **Next Scene**
+  - e = **Previous Mode**
+  - r = **Next Mode**
+  - a = **Save Scene**
+  - s = **Screenshot**
+  - d = **Trigger**
+  - z = **OSD**
+  - x = **Persist**
+  - shift = **toggle shift mode**
+- press ESC or Ctrl-C to **Quit** Eyesy
 
 ### Web Editor
 The web editor lets you edit the pygame scripts that generate the visuals on the fly. It should be accessible at http://raspberrypi.local:8080/ (or IP:8080 where IP is the current ip adress of your Pi)
