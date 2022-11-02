@@ -55,8 +55,8 @@ def updateTriggerSource(event, etc):
         inc = -1
 
     if inc != 0:
-        etc.trigger_source = clamp(etc.trigger_source+inc, 0, 5)
-        etc.audio_trig_enable = etc.trigger_source == 0
+        etc.trigger_source = clamp(etc.trigger_source+inc, 1, 6)
+        etc.audio_trig_enable = etc.trigger_source == 1
     
 def updateMidiChannel(event, etc):
     inc = 0
