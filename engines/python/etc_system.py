@@ -184,14 +184,17 @@ class System:
 
     # save shift params to file
     def save_shift_params(self):
-        f = open("/home/pi/Eyesy/system/shift-params.txt", 'w')
-        lines = "inputGain {0};\ntrigSource {1};\nmidiCh {2};\n".format(
-            100 * self.audio_scale,
-            self.trigger_source,
-            self.midi_ch
-        )
-        f.write(lines)
-        f.close()
+        try:
+            f = open("/home/pi/Eyesy/system/shift-params.txt", 'w')
+            lines = "inputGain {0};\ntrigSource {1};\nmidiCh {2};\n".format(
+                100 * self.audio_scale,
+                self.trigger_source,
+                self.midi_ch
+            )
+            f.write(lines)
+            f.close()
+        except IOError as e:
+            pass
 
     # then do this for the modes 
     def update_knobs_and_notes(self) :
@@ -239,21 +242,24 @@ class System:
 
     # save a screenshot
     def screengrab(self):
-        filenum = 0
-        imagepath = self.GRABS_PATH + str(filenum) + ".jpg"
-        while os.path.isfile(imagepath):
-            filenum += 1
+        try:
+            filenum = 0
             imagepath = self.GRABS_PATH + str(filenum) + ".jpg"
-        pygame.image.save(self.screen,imagepath)
-        # make sure it is saved as 'music' user, uid=gid=1000
-        os.chown(imagepath, 1000, 1000)
-        # add to the grabs array
-        self.grabindex += 1
-        self.grabindex %= 5
-        pygame.transform.scale(self.screen, (128, 72), self.tengrabs_thumbs[self.grabindex] )
-        self.lastgrab = self.screen.copy()
-        self.lastgrab_thumb = self.tengrabs_thumbs[self.grabindex]
-        print "grabbed " + imagepath
+            while os.path.isfile(imagepath):
+                filenum += 1
+                imagepath = self.GRABS_PATH + str(filenum) + ".jpg"
+            pygame.image.save(self.screen,imagepath)
+            # make sure it is saved as 'music' user, uid=gid=1000
+            os.chown(imagepath, 1000, 1000)
+            # add to the grabs array
+            self.grabindex += 1
+            self.grabindex %= 5
+            pygame.transform.scale(self.screen, (128, 72), self.tengrabs_thumbs[self.grabindex] )
+            self.lastgrab = self.screen.copy()
+            self.lastgrab_thumb = self.tengrabs_thumbs[self.grabindex]
+            print "grabbed " + imagepath
+        except pygame.error as e:
+            pass
 
     # load modes,  check if modes are found
     def load_modes(self):
@@ -365,13 +371,16 @@ class System:
         self.recall_scene(len(self.scenes) - 1)
 
     def write_all_scenes(self):
+        try:
 	    # write it
-        with open(self.SCENES_PATH, "wb") as f:
-    	    writer = csv.writer(f,quoting=csv.QUOTE_MINIMAL)
-    	    writer.writerows(self.scenes) 
-        #print "saved scenes: " + str(self.scenes)
-        # make sure it is saved as 'music' user, uid=gid=1000
-        os.chown(self.SCENES_PATH, 1000, 1000)
+            with open(self.SCENES_PATH, "wb") as f:
+                writer = csv.writer(f,quoting=csv.QUOTE_MINIMAL)
+                writer.writerows(self.scenes)
+            #print "saved scenes: " + str(self.scenes)
+            # make sure it is saved as 'music' user, uid=gid=1000
+            os.chown(self.SCENES_PATH, 1000, 1000)
+        except IOError as e:
+            pass
 
     def load_scenes(self):
         # create scene file if doesn't exits
