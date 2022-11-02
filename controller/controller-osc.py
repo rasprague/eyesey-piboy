@@ -284,7 +284,7 @@ def get_button_by_event(event, button):
             elif button == 'BUTTON_DOWN':
                 return joy.get_axis(1) > thres
         else:
-            return false
+            return False
     else:
         return joy.get_button(bmap(button))
     
