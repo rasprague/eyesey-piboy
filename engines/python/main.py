@@ -185,8 +185,8 @@ while 1:
                 exitexit()
             elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
                 exitexit()
-            elif keyboardInput is not None:
-                keyboardInput.eventHandler(event, pressed, etc)
+
+        keyboardInput.eventHandler(event, pressed, etc)
     keyboardInput.update(pressed, etc)
 
     # measure fps

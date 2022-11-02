@@ -81,12 +81,32 @@ def updateShift(etc):
 
 def eventHandler(event, pressed, etc):
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-            updateShift(etc)
         if pressed[pygame.K_7]: # trigger source
             updateTriggerSource(event, etc)
         if pressed[pygame.K_8]: # midi channel
             updateMidiChannel(event, etc)
+
+        if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+            updateShift(etc)
+        if event.key == pygame.K_q: # scene prev
+            etc.prev_scene()
+        if event.key == pygame.K_w: # scene next
+            etc.next_scene()
+        if event.key == pygame.K_e: # mode prev
+            etc.prev_mode()
+        if event.key == pygame.K_r: # mode next
+            etc.next_mode()
+        if event.key == pygame.K_a: # save scene
+            etc.save_or_delete_scene(1)
+        if event.key == pygame.K_s: # screenshot
+            etc.screengrab_flag = True
+        if event.key == pygame.K_d: # trigger
+            etc.update_trig_button(1)
+        if event.key == pygame.K_z: # osd
+            etc.set_osd(not etc.osd)
+        if event.key == pygame.K_x: # persist
+            etc.auto_clear = not etc.auto_clear
+
         if event.key == pygame.K_UP:
             pass
         if event.key == pygame.K_DOWN:
@@ -95,7 +115,12 @@ def eventHandler(event, pressed, etc):
             pass
         if event.key == pygame.K_RIGHT:
             pass
-    
+    elif event.type == pygame.KEYUP:
+        if event.key == pygame.K_a: # save scene
+            etc.save_or_delete_scene(0)
+        if event.key == pygame.K_d: # trigger
+            etc.update_trig_button(0)
+
 def update(pressed, etc):
     if pressed[pygame.K_1]:
         updateKnob(0, pressed, etc)
