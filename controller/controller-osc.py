@@ -35,6 +35,7 @@ osc_server = None
 joysticks = None
 run = True
 shift_state = False
+axis_state = [0] * 2
 
 def clamp(val, min=0, max=1023):
     if val < min:
@@ -294,6 +295,33 @@ def get_buttons(joy, buttons):
             return False
     return True
 
+def update_axis_state(axis, val):
+    """
+    Useful for treating analog stick as a dpad
+    Returns -1 if moving stick left / up
+    Returns  1 if moving stick right / down
+    Returns  0 if no change or returning to center
+    """
+    global axis_state
+    if controller['axis']:
+        thresh = controller['axis-threshold']
+
+        old_state = axis_state[axis]
+        
+        new_state = 0
+        if val < -thresh: new_state = -1
+        elif val > thresh: new_state = 1
+
+        r = 0
+        if new_state > old_state: r = 1
+        elif new_state < old_state: r = -1
+
+        axis_state[axis] = new_state
+
+        return r
+    else:
+        return 0
+    
 def updateInput():
     global joysticks, run
     for joy in joysticks:
@@ -334,24 +362,26 @@ def main():
             if event.type == JOYAXISMOTION:
                 #print("AXIS", event.joy, event.axis)
                 if controller['axis']:
+                    axis = event.axis
+                    value = joy.get_axis(axis)
+                    thresh = controller['axis-threshold']
+                    changed = update_axis_state(axis, value) != 0
                     if shift_state:
                         if get_button(joy, 'KNOB_TRIGGER_SOURCE'):
-                            updateTriggerSource(event)
+                            if changed: updateTriggerSource(event)
                         elif get_button(joy, 'KNOB_MIDI_CHANNEL'):
-                            updateMidiChannel(event)
+                            if changed: updateMidiChannel(event)
                     elif get_button(joy, 'KNOB_MODE_SCENE'):
-                        axis = event.axis
-                        thresh = controller['axis-threshold']
-                        if axis == 0: 
-                            if joy.get_axis(axis) < -thresh: # left
-                                sendOscMsg("/key/4", 1)
-                            elif joy.get_axis(axis) > thresh: # right
-                                sendOscMsg("/key/5", 1)
+                        if axis == 0:
+                            if value < -thresh: # left
+                                if changed: sendOscMsg("/key/4", 1)
+                            elif value > thresh: # right
+                                if changed: sendOscMsg("/key/5", 1)
                         elif event.axis == 1:
-                            if joy.get_axis(axis) < -thresh: # up
-                                sendOscMsg("/key/6", 1)
-                            elif joy.get_axis(axis) > thresh: # down
-                                sendOscMsg("/key/7", 1)
+                            if value < -thresh: # up
+                                if changed: sendOscMsg("/key/6", 1)
+                            elif value > thresh: # down
+                                if changed: sendOscMsg("/key/7", 1)
             elif event.type == JOYHATMOTION:
                 #print("HAT", event.joy, event.hat)
                 if controller['hat']:
