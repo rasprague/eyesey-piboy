@@ -187,32 +187,32 @@ def updateGain(joy):
         gain = clamp(gain+inc, 0.0, GAIN_MAX)
         sendOscMsg("/ascale", gain)
 
-def updateTriggerSource(joy):
+def updateTriggerSource(event):
     global trigger_source
     inc = 0
-    if get_button(joy, 'BUTTON_LEFT'):
+    if get_button_by_event(event, 'BUTTON_LEFT'):
         inc = -1
-    elif get_button(joy, 'BUTTON_RIGHT'):
+    elif get_button_by_event(event, 'BUTTON_RIGHT'):
         inc = 1
-    elif get_button(joy, 'BUTTON_UP'):
+    elif get_button_by_event(event, 'BUTTON_UP'):
         inc = 1
-    elif get_button(joy, 'BUTTON_DOWN'):
+    elif get_button_by_event(event, 'BUTTON_DOWN'):
         inc = -1
 
     if inc != 0:
         trigger_source = clamp(trigger_source+inc, 1, 6)
         sendOscMsg("/trigger_source", trigger_source)
 
-def updateMidiChannel(joy):
+def updateMidiChannel(event):
     global midi_channel
     inc = 0
-    if get_button(joy, 'BUTTON_LEFT'):
+    if get_button_by_event(event, 'BUTTON_LEFT'):
         inc = -1
-    elif get_button(joy, 'BUTTON_RIGHT'):
+    elif get_button_by_event(event, 'BUTTON_RIGHT'):
         inc = 1
-    elif get_button(joy, 'BUTTON_UP'):
+    elif get_button_by_event(event, 'BUTTON_UP'):
         inc = 1
-    elif get_button(joy, 'BUTTON_DOWN'):
+    elif get_button_by_event(event, 'BUTTON_DOWN'):
         inc = -1
 
     if inc != 0:
@@ -236,28 +236,58 @@ def get_button(joy, button):
         if not r and controller['hat']:
             x, y = joy.get_hat(0)
             if button == 'BUTTON_LEFT':
-                r =  x <= -1.0
+                r = x <= -1.0
             elif button == 'BUTTON_RIGHT':
-                r =  x >= 1.0
+                r = x >= 1.0
             elif button == 'BUTTON_UP':
-                r =  y >= 1.0
+                r = y >= 1.0
             elif button == 'BUTTON_DOWN':
-                r =  y <= -1.0
+                r = y <= -1.0
         if not r and controller['axis']:
             thres = controller['axis-threshold']
             if button == 'BUTTON_LEFT':
-                r =  joy.get_axis(0) < -thres
+                r = joy.get_axis(0) < -thres
             elif button == 'BUTTON_RIGHT':
-                r =  joy.get_axis(0) > thres
+                r = joy.get_axis(0) > thres
             elif button == 'BUTTON_UP':
-                r =  joy.get_axis(1) < -thres
+                r = joy.get_axis(1) < -thres
             elif button == 'BUTTON_DOWN':
-                r =  joy.get_axis(1) > thres
+                r = joy.get_axis(1) > thres
 
         return r
     else:
         return joy.get_button(bmap(button))
-        
+
+def get_button_by_event(event, button):
+    joy = joysticks[event.joy]
+    if button in ('BUTTON_UP', 'BUTTON_DOWN', 'BUTTON_LEFT', 'BUTTON_RIGHT'):
+        if controller['dpad'] and event.type == JOYBUTTONDOWN:
+            return event.button == bmap(button)
+        elif controller['hat'] and event.type == JOYHATMOTION:
+            x, y = joy.get_hat(0)
+            if button == 'BUTTON_LEFT':
+                return x <= -1.0
+            elif button == 'BUTTON_RIGHT':
+                return x >= 1.0
+            elif button == 'BUTTON_UP':
+                return y >= 1.0
+            elif button == 'BUTTON_DOWN':
+                return y <= -1.0
+        elif controller['axis'] and event.type == JOYAXISMOTION:
+            thres = controller['axis-threshold']
+            if button == 'BUTTON_LEFT':
+                return joy.get_axis(0) < -thres
+            elif button == 'BUTTON_RIGHT':
+                return joy.get_axis(0) > thres
+            elif button == 'BUTTON_UP':
+                return joy.get_axis(1) < -thres
+            elif button == 'BUTTON_DOWN':
+                return joy.get_axis(1) > thres
+        else:
+            return False
+    else:
+        return joy.get_button(bmap(button))
+    
 def get_buttons(joy, buttons):
     for b in buttons:
         if not get_button(joy, b):
@@ -304,9 +334,14 @@ def main():
             if event.type == JOYAXISMOTION:
                 #print("AXIS", event.joy, event.axis)
                 if controller['axis']:
-                    axis = event.axis
-                    thresh = controller['axis-threshold']
-                    if get_button(joy, 'KNOB_MODE_SCENE'):
+                    if shift_state:
+                        if get_button(joy, 'KNOB_TRIGGER_SOURCE'):
+                            updateTriggerSource(event)
+                        elif get_button(joy, 'KNOB_MIDI_CHANNEL'):
+                            updateMidiChannel(event)
+                    elif get_button(joy, 'KNOB_MODE_SCENE'):
+                        axis = event.axis
+                        thresh = controller['axis-threshold']
                         if axis == 0: 
                             if joy.get_axis(axis) < -thresh: # left
                                 sendOscMsg("/key/4", 1)
@@ -320,9 +355,14 @@ def main():
             elif event.type == JOYHATMOTION:
                 #print("HAT", event.joy, event.hat)
                 if controller['hat']:
-                    hat = event.hat
-                    x, y = joy.get_hat(hat)
-                    if get_button(joy, 'KNOB_MODE_SCENE'):
+                    if shift_state:
+                        if get_button(joy, 'KNOB_TRIGGER_SOURCE'):
+                            updateTriggerSource(event)
+                        elif get_button(joy, 'KNOB_MIDI_CHANNEL'):
+                            updateMidiChannel(event)
+                    elif get_button(joy, 'KNOB_MODE_SCENE'):
+                        hat = event.hat
+                        x, y = joy.get_hat(hat)
                         if x <= -1.0: # left
                             sendOscMsg("/key/4", 1)
                         elif x >= 1.0: # right
@@ -336,9 +376,9 @@ def main():
                 #print("BUTTONDOWN", event.joy, event.button)
                 if shift_state:
                     if get_button(joy, 'KNOB_TRIGGER_SOURCE'):
-                        updateTriggerSource(joy)
+                        updateTriggerSource(event)
                     elif get_button(joy, 'KNOB_MIDI_CHANNEL'):
-                        updateMidiChannel(joy)
+                        updateMidiChannel(event)
                 elif get_button(joy, 'KEY_SECONDARY'):
                     if event.button == bmap('KEY_OSD'):
                         sendOscMsg("/key/1", 1)
@@ -350,7 +390,7 @@ def main():
                         sendOscMsg("/key/9", 1)
                     elif event.button == bmap('KEY_TRIGGER'):
                         sendOscMsg("/key/10", 1)
-                elif get_button(joy, 'KNOB_MODE_SCENE') and controller['dpad']:
+                elif controller['dpad'] and get_button(joy, 'KNOB_MODE_SCENE'):
                     if event.button == bmap('BUTTON_LEFT'):
                         sendOscMsg("/key/4", 1)
                     elif event.button == bmap('BUTTON_RIGHT'):

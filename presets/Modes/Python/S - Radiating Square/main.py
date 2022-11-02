@@ -34,7 +34,6 @@ class LFO : #uses three arguments: start point, max, and how far each step is.
 
 def setup(screen, etc) :
     global sqmover, adjust1, adjust2, xr,yr
-    etc.color_picker_bg(etc.knob5)
     xr = etc.xres
     yr = etc.yres
     sqmover = LFO(-1*(yr/2),yr/2,0.01)
@@ -44,6 +43,7 @@ def setup(screen, etc) :
 
 def draw(screen, etc) :
     global sqmover, adjust1, adjust2, xr,yr
+    etc.color_picker_bg(etc.knob5)
     for i in range(0, 100) :
         width = int(etc.knob2*((15*xr)/1280))+1
         #LFOs
