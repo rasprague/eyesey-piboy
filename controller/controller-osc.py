@@ -81,8 +81,9 @@ def setupOscClient():
 def sendOscMsg(path, args):
     global osc_target
     liblo.send(osc_target, path, args)
-    for c in remotecontrol_clients:
-        liblo.send(liblo.Address(c, 4000, liblo.UDP), path, args)
+    if path != "/quit":
+        for c in remotecontrol_clients:
+            liblo.send(liblo.Address(c, 4000, liblo.UDP), path, args)
 
 def setupOscServer():
     global osc_server
