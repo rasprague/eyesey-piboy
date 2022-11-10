@@ -285,6 +285,7 @@ def send_params_pd():
     send("/midi_ch", etc.midi_ch)
     etc.params_sent_pd = True
 
-def sendKeepAlive():
-    if etc.keepaliveserver != "None":
-        liblo.send(liblo.Address(etc.keepaliveserver, 4003), "/keepalive", 1)
+def sendRemoteControlKeepAlive():
+    if etc.remotecontrolclient != "None":
+        # etc.remotecontrolclient value is actually the remote-control server host this client should connect to
+        liblo.send(liblo.Address(etc.remotecontrolclient, 4003), "/remotecontrol_keepalive", 1)

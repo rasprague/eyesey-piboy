@@ -23,7 +23,7 @@ parser.add_argument("-device", type=unicode, default=u"default")
 parser.add_argument("-rate", type=int, default=48000)
 parser.add_argument("-period", type=int, default=1024)
 parser.add_argument("-doublebuffer", type=int, default=1)
-parser.add_argument("-keepaliveserver", type=str, default="None")
+parser.add_argument("-remotecontrolclient", type=str, help="act as a remote-control client, send keep-alive packets to server host", default="None")
 args = parser.parse_args()
 
 import keyboardInput
@@ -44,7 +44,7 @@ AOUT_JACK = args.aout == "jack"
 etc.device = args.device
 etc.rate = args.rate
 etc.period = args.period
-etc.keepaliveserver = args.keepaliveserver
+etc.remotecontrolclient = args.remotecontrolclient # value stores the remote-control server host this client should connect to
 
 # setup osc and callbacks
 osc.init(etc)
@@ -265,7 +265,7 @@ while 1:
     etc.clear_flags()
     osc_msgs_recv = 0
 
-    osc.sendKeepAlive()
+    osc.sendRemoteControlKeepAlive()
     
     #draw the main screen, limit fps 30
     clocker.tick(30)

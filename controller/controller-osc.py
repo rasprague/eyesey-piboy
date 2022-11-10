@@ -16,7 +16,7 @@ def remove_suffix(text, suffix):
     return text
 
 parser = argparse.ArgumentParser(description='Convert Game Controller events to Eyesy OSC messages')
-parser.add_argument('--keepalivelisten', type=int, help='enable keep-alive listening', default=0)
+parser.add_argument('--remotecontrolserver', type=int, help='act as a remote-control server', default=0)
 parser.add_argument('mapfile', type=str, help='controller mapping file', default="dummy")
 args = parser.parse_args()
 controller = importlib.import_module(remove_suffix(args.mapfile, '.py')).controller
@@ -27,7 +27,7 @@ BIG_INC = 10
 GAIN_SMALL_INC = 0.001
 GAIN_BIG_INC = 0.01
 GAIN_MAX = 10.0
-KEEPALIVE_TIMEOUT = 60
+REMOTECONTROL_KEEPALIVE_TIMEOUT = 60
 
 knobs = [512] * 6 # one extra so I can use 1-based index
 gain = 1.0
@@ -35,8 +35,8 @@ trigger_source = 1
 midi_channel = 1
 osc_target = None
 osc_server = None
-osc_keepalive_server = None
-keepalive_clients = {}
+osc_remotecontrol_server = None
+remotecontrol_clients = {}
 joysticks = None
 run = True
 shift_state = False
@@ -81,7 +81,7 @@ def setupOscClient():
 def sendOscMsg(path, args):
     global osc_target
     liblo.send(osc_target, path, args)
-    for c in keepalive_clients:
+    for c in remotecontrol_clients:
         liblo.send(liblo.Address(c, 4000, liblo.UDP), path, args)
 
 def setupOscServer():
@@ -136,34 +136,34 @@ def setupOscServer():
 def stopOscServer():
     osc_server.stop()
 
-def keepalive_callback(path, args, types, src):
-    global keepalive_clients
+def remotecontrol_keepalive_callback(path, args, types, src):
+    global remotecontrol_clients
     print("got %s %s" % (src.hostname, path))
     if args[0] == 0:
-        if src.hostname in keepalive_clients:
-            del(keepalive_clients[src.hostname])
+        if src.hostname in remotecontrol_clients:
+            del(remotecontrol_clients[src.hostname])
     elif args[0] == 1:
         if src.hostname != '127.0.0.1':
-            keepalive_clients[src.hostname] = time.time()
+            remotecontrol_clients[src.hostname] = time.time()
 
-def updateKeepAliveClients():
+def updateRemoteControlTimeouts():
     now = time.time()
-    for c, t in keepalive_clients.items():
-        if now - t > KEEPALIVE_TIMEOUT:
-            del(keepalive_clients[c])
+    for c, t in remotecontrol_clients.items():
+        if now - t > REMOTECONTROL_KEEPALIVE_TIMEOUT:
+            del(remotecontrol_clients[c])
     
-def setupOscKeepAliveServer():
-    global osc_keepalive_server
+def setupOscRemoteControlServer():
+    global osc_remotecontrol_server
     try:
-        osc_keepalive_server = liblo.ServerThread(4003)
-        osc_keepalive_server.add_method("/keepalive", 'i', keepalive_callback)
-        osc_keepalive_server.start()
+        osc_remotecontrol_server = liblo.ServerThread(4003)
+        osc_remotecontrol_server.add_method("/remotecontrol_keepalive", 'i', remotecontrol_keepalive_callback)
+        osc_remotecontrol_server.start()
     except liblo.ServerError as err:
         print ("libloServerError:", str(err))
         raise err
 
-def stopOscKeepAliveServer():
-    osc_keepalive_server.stop()
+def stopOscRemoteControlServer():
+    osc_remotecontrol_server.stop()
 
 def setupPygame():
     global joysticks
@@ -386,16 +386,16 @@ def main():
 
     setupSignalHandler()
     setupOscClient()
-    if args.keepalivelisten:
-        setupOscKeepAliveServer()
+    if args.remotecontrolserver:
+        setupOscRemoteControlServer()
     setupOscServer()
     setupPygame()
 
     clock = pygame.time.Clock()
     while run:
         updateInput()
-        if args.keepalivelisten:
-            updateKeepAliveClients()
+        if args.remotecontrolserver:
+            updateRemoteControlTimeouts()
 
         for event in pygame.event.get():
             joy = joysticks[event.joy]
@@ -485,8 +485,8 @@ def main():
                 pass
         clock.tick(60)
 
-    if args.keepalivelisten:
-        stopOscKeepAliveServer()
+    if args.remotecontrolserver:
+        stopOscRemoteControlServer()
     stopOscServer()
     stopPygame()
 
