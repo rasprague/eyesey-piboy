@@ -28,6 +28,9 @@ args = parser.parse_args()
 
 import keyboardInput
 
+oscRemoteControlKeepAliveLastSent = time.time()
+OSC_REMOTECONTROL_KEEPALIVE_PERIOD = 10
+
 # create etc object
 # this holds all the data (mode and preset names, knob values, midi input, sound input, current states, etc...)
 # it gets passed to the modes which use the audio midi and knob values
@@ -265,7 +268,10 @@ while 1:
     etc.clear_flags()
     osc_msgs_recv = 0
 
-    osc.sendRemoteControlKeepAlive()
+    # OSC remote-control keep-alive
+    if time.time() - oscRemoteControlKeepAliveLastSent > OSC_REMOTECONTROL_KEEPALIVE_PERIOD:
+        oscKeepAliveLastSent = time.time()
+        osc.sendRemoteControlKeepAlive()
     
     #draw the main screen, limit fps 30
     clocker.tick(30)
