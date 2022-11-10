@@ -2,7 +2,8 @@
 systemctl stop wpa_supplicant
 systemctl stop dhcpcd
 
-AP_FILE="/sdcard/System/ap.txt"
+DIR=$(basename $0)
+AP_FILE="$DIR/ap.txt"
 
 if [ -f "$AP_FILE" ]; then
     echo "$AP_FILE exists"
@@ -14,5 +15,5 @@ else
     PW=coolmusic
 fi
 
-/home/music/EYESY_OS/system/create_ap --no-virt -n wlan0 $NET $PW
+$DIR/create_ap --no-virt -n wlan0 $NET $PW
 
