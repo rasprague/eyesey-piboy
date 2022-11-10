@@ -284,3 +284,7 @@ def send_params_pd():
     send("/trigger_source", etc.trigger_source)
     send("/midi_ch", etc.midi_ch)
     etc.params_sent_pd = True
+
+def sendKeepAlive():
+    if etc.keepaliverserver != "":
+        liblo.send(liblo.Address(etc.keepaliveserver, 4003), "/keepalive", 1)

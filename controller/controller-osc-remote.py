@@ -17,7 +17,6 @@ def remove_suffix(text, suffix):
 
 parser = argparse.ArgumentParser(description='Convert Game Controller events to Eyesy OSC messages')
 parser.add_argument('mapfile', type=str, help='controller mapping file')
-parser.add_argument('keepalivelisten', type=int, help='enable keep-alive listening', default=0)
 args = parser.parse_args()
 controller = importlib.import_module(remove_suffix(args.mapfile, '.py')).controller
 
@@ -40,7 +39,6 @@ keepalive_clients = {}
 joysticks = None
 run = True
 shift_state = False
-axis_state = [0] * 2
 
 def clamp(val, min=0, max=1023):
     if val < min:
@@ -133,9 +131,6 @@ def setupOscServer():
         print("libloServerError:", str(err))
         raise err
 
-def stopOscServer():
-    osc_server.stop()
-
 def keepalive_callback(path, args, types, src):
     global keepalive_clients
     print("got %s %s" % (src.hostname, path))
@@ -161,10 +156,7 @@ def setupOscKeepAliveServer():
     except liblo.ServerError as err:
         print ("libloServerError:", str(err))
         raise err
-
-def stopOscKeepAliveServer():
-    osc_keepalive_server.stop()
-
+    
 def setupPygame():
     global joysticks
     
@@ -321,7 +313,7 @@ def get_button_by_event(event, button):
             elif button == 'BUTTON_DOWN':
                 return joy.get_axis(1) > thres
         else:
-            return False
+            return false
     else:
         return joy.get_button(bmap(button))
     
@@ -331,33 +323,6 @@ def get_buttons(joy, buttons):
             return False
     return True
 
-def update_axis_state(axis, val):
-    """
-    Useful for treating analog stick as a dpad
-    Returns -1 if moving stick left / up
-    Returns  1 if moving stick right / down
-    Returns  0 if no change or returning to center
-    """
-    global axis_state
-    if controller['axis']:
-        thresh = controller['axis-threshold']
-
-        old_state = axis_state[axis]
-        
-        new_state = 0
-        if val < -thresh: new_state = -1
-        elif val > thresh: new_state = 1
-
-        r = 0
-        if new_state > old_state: r = 1
-        elif new_state < old_state: r = -1
-
-        axis_state[axis] = new_state
-
-        return r
-    else:
-        return 0
-    
 def updateInput():
     global joysticks, run
     for joy in joysticks:
@@ -386,42 +351,38 @@ def main():
 
     setupSignalHandler()
     setupOscClient()
-    if args.keepalivelisten:
-        setupOscKeepAliveServer()
     setupOscServer()
+    setupOscKeepAliveServer()
     setupPygame()
-
+    
     clock = pygame.time.Clock()
     while run:
         updateInput()
-        if args.keepalivelisten:
-            updateKeepAliveClients()
+        updateKeepAliveClients()
 
         for event in pygame.event.get():
             joy = joysticks[event.joy]
             if event.type == JOYAXISMOTION:
                 #print("AXIS", event.joy, event.axis)
                 if controller['axis']:
-                    axis = event.axis
-                    value = joy.get_axis(axis)
-                    thresh = controller['axis-threshold']
-                    changed = update_axis_state(axis, value) != 0
                     if shift_state:
                         if get_button(joy, 'KNOB_TRIGGER_SOURCE'):
-                            if changed: updateTriggerSource(event)
+                            updateTriggerSource(event)
                         elif get_button(joy, 'KNOB_MIDI_CHANNEL'):
-                            if changed: updateMidiChannel(event)
+                            updateMidiChannel(event)
                     elif get_button(joy, 'KNOB_MODE_SCENE'):
-                        if axis == 0:
-                            if value < -thresh: # left
-                                if changed: sendOscMsg("/key/4", 1)
-                            elif value > thresh: # right
-                                if changed: sendOscMsg("/key/5", 1)
+                        axis = event.axis
+                        thresh = controller['axis-threshold']
+                        if axis == 0: 
+                            if joy.get_axis(axis) < -thresh: # left
+                                sendOscMsg("/key/4", 1)
+                            elif joy.get_axis(axis) > thresh: # right
+                                sendOscMsg("/key/5", 1)
                         elif event.axis == 1:
-                            if value < -thresh: # up
-                                if changed: sendOscMsg("/key/6", 1)
-                            elif value > thresh: # down
-                                if changed: sendOscMsg("/key/7", 1)
+                            if joy.get_axis(axis) < -thresh: # up
+                                sendOscMsg("/key/6", 1)
+                            elif joy.get_axis(axis) > thresh: # down
+                                sendOscMsg("/key/7", 1)
             elif event.type == JOYHATMOTION:
                 #print("HAT", event.joy, event.hat)
                 if controller['hat']:
@@ -485,9 +446,6 @@ def main():
                 pass
         clock.tick(60)
 
-    if args.keepalivelisten:
-        stopOscKeepAliveServer()
-    stopOscServer()
     stopPygame()
 
 if __name__ == "__main__":
