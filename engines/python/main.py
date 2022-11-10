@@ -23,7 +23,7 @@ parser.add_argument("-device", type=unicode, default=u"default")
 parser.add_argument("-rate", type=int, default=48000)
 parser.add_argument("-period", type=int, default=1024)
 parser.add_argument("-doublebuffer", type=int, default=1)
-parser.add_argument("-keepaliveserver", type-str, default="None")
+parser.add_argument("-keepaliveserver", type=str, default="None")
 args = parser.parse_args()
 
 import keyboardInput
