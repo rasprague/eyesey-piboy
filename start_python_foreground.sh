@@ -2,6 +2,7 @@
 
 DEVICE="default"
 RATE=44100
+PERIOD=1024
 DOUBLEBUF=1
 KEEPALIVESERVER="None"
 CONTROLLER_MAPPING="dummy"
@@ -20,6 +21,7 @@ function usage()
     echo "    [ -d | --device ] <D> - use audio device D, defaults to 'default'"
     echo "      (see output from list-pcms.py)"
     echo "    [ -r | --rate ] <R> - use R sample rate, defaults to 44100"
+    echo "    [ -p | --period ] <P> - use P period, defaults to 1024"
     echo "    [ -b | --doublebuffer <0|1> - 0 to disable double-buffering, 1 to enable double-buffering, defaults to 1"
     echo "    [ -s | --keepalive-server <H> - send keep-alive remote packets to server host H"
     echo "    [ -m | --controller-mapping <M> - use controller mapping python file M, defaults is 'mapping.py'"
@@ -29,7 +31,7 @@ function usage()
 
 function parseargs()
 {
-    OPTIONS=$(getopt -o d:r:b:s:m:kh --long device:,rate:,double-buffer:,keepalive-server:,controller-mapping:,keepalive-listen,help -- $ARGS)
+    OPTIONS=$(getopt -o d:r:p:b:s:m:kh --long device:,rate:,double-buffer:,period:,double-buffer:,keepalive-server:,controller-mapping:,keepalive-listen,help -- $ARGS)
     if [ $? -ne 0 ]; then
 	usage
 	exit 1
@@ -43,6 +45,8 @@ function parseargs()
 		DEVICE=$2 ; shift 2 ;;
 	    -r|--rate)
 		RATE=$2 ; shift 2 ;;
+	    -p|--period)
+		PERIOD=$2 ; shift 2 ;;
 	    -b|--double-buffer)
 		DOUBLEBUF=$2 ; shift 2 ;;
 	    -s|--keepalive-server)
@@ -73,7 +77,7 @@ function startup()
     fi
 
     cd /home/pi/Eyesy/engines/python
-    python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE -keepaliveserver $KEEPALIVESERVER &
+    python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE -period $PERIOD -keepaliveserver $KEEPALIVESERVER &
     EYESY_PYTHON_PID=$!
     echo "EYESY_PYTHON_PID=$EYESY_PYTHON_PID"
 }
