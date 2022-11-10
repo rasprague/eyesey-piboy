@@ -286,5 +286,5 @@ def send_params_pd():
     etc.params_sent_pd = True
 
 def sendKeepAlive():
-    if etc.keepaliverserver != "":
+    if etc.keepaliverserver != "None":
         liblo.send(liblo.Address(etc.keepaliveserver, 4003), "/keepalive", 1)

@@ -16,8 +16,8 @@ def remove_suffix(text, suffix):
     return text
 
 parser = argparse.ArgumentParser(description='Convert Game Controller events to Eyesy OSC messages')
-parser.add_argument('mapfile', type=str, help='controller mapping file')
-parser.add_argument('keepalivelisten', type=int, help='enable keep-alive listening', default=0)
+parser.add_argument('--keepalivelisten', type=int, help='enable keep-alive listening', default=0)
+parser.add_argument('mapfile', type=str, help='controller mapping file', default="dummy")
 args = parser.parse_args()
 controller = importlib.import_module(remove_suffix(args.mapfile, '.py')).controller
 

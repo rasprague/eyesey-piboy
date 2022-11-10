@@ -3,7 +3,9 @@
 DEVICE="default"
 RATE=44100
 DOUBLEBUF=1
+KEEPALIVESERVER="None"
 CONTROLLER_MAPPING="dummy"
+KEEPALIVELISTEN=0
 
 EYESY_PYTHON_PID=0
 CONTROLLER_OSC_PID=0
@@ -19,13 +21,15 @@ function usage()
     echo "      (see output from list-pcms.py)"
     echo "    [ -r | --rate ] <R> - use R sample rate, defaults to 44100"
     echo "    [ -b | --doublebuffer <0|1> - 0 to disable double-buffering, 1 to enable double-buffering, defaults to 1"
-    echo "    [ -m | --controller-mapping <M>- use controller mapping python file M, defaults is 'mapping.py'"
+    echo "    [ -s | --keepalive-server <H> - send keep-alive remote packets to server host H"
+    echo "    [ -m | --controller-mapping <M> - use controller mapping python file M, defaults is 'mapping.py'"
+    echo "    [ -k | --keepalive-listen - turn on keep-alive listening for controller"
     echo "    [ -h | --help ] show this helpful message"
 }
 
 function parseargs()
 {
-    OPTIONS=$(getopt -o d:r:b:m: --long device:,rate:,double-buffer:,controller-mapping:,help -- $ARGS)
+    OPTIONS=$(getopt -o d:r:b:s:m:kh --long device:,rate:,double-buffer:,keepalive-server:,controller-mapping:,keepalive-listen,help -- $ARGS)
     if [ $? -ne 0 ]; then
 	usage
 	exit 1
@@ -41,8 +45,12 @@ function parseargs()
 		RATE=$2 ; shift 2 ;;
 	    -b|--double-buffer)
 		DOUBLEBUF=$2 ; shift 2 ;;
+	    -s|--keepalive-server)
+		KEEPALIVESERVER=$2 ; shift 2 ;;
 	    -m|--controller-mapping)
 		CONTROLLER_MAPPING=$2 ; shift 2 ;;
+	    -k|--keepalive-listen)
+		KEEPALIVELISTEN=1 ; shift ;;
 	    -h|--help)
 		usage ; shift ; exit 0 ;;
 	    --)
@@ -59,13 +67,13 @@ function startup()
 
     if [ $CONTROLLER_MAPPING != "dummy" ]; then
         cd /home/pi/Eyesy/controller
-        ./controller-osc.py $CONTROLLER_MAPPING &
+        ./controller-osc.py --keepalivelisten $KEEPALIVELISTEN $CONTROLLER_MAPPING &
         CONTROLLER_OSC_PID=$!
         echo "CONTROLLER_OSC_PID=$CONTROLLER_OSC_PID"
     fi
 
     cd /home/pi/Eyesy/engines/python
-    python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE &
+    python -u main.py -device $DEVICE -doublebuffer $DOUBLEBUF -rate $RATE -keepaliveserver $KEEPALIVESERVER &
     EYESY_PYTHON_PID=$!
     echo "EYESY_PYTHON_PID=$EYESY_PYTHON_PID"
 }
